@@ -1,0 +1,141 @@
+<project name="testAnt" default="runTests" basedir=".">
+  <description>This is a simple test project.</description>
+  
+
+<!-- TROUVER TOUS LES CHEMINS -->
+    <target name="getPaths">
+      <property name="junit.location" location="./junit.jar"/>
+      <property name="src.location" location="src"/>
+      <property name="test.location" location="test"/>
+      <property name="docs.location" location="docs"/>
+
+      <property name="bin.location" location="bin"/>
+      <property name="testbin.location" location="testbin"/>
+
+      <get src="http://central.maven.org/maven2/junit/junit/4.4/junit-4.4.jar" dest="${junit.location}"/>
+
+      <mkdir dir="${bin.location}"/>
+      <mkdir dir="${testbin.location}"/>
+      <mkdir dir="${docs.location}"/>
+
+
+      <condition property="everything.available">
+        <and>
+
+          <available file="${src.location}" type="dir"/>
+          <available file="${bin.location}" type="dir"/>
+          <available file="${testbin.location}" type="dir"/>
+          <available file="${docs.location}" type="dir"/>
+
+          <available file="${test.location}" type="dir"/>
+          <available file="${junit.location}"/>
+
+        </and>
+      </condition>
+    </target>
+
+
+<!-- CONSTRUIRE LE PROJET -->
+    <target name="build" depends="getPaths" if="everything.available">
+
+        <javac includeantruntime="false" srcdir="${src.location}" destdir="${bin.location}"/>
+
+        
+        <javac includeantruntime="true" srcdir="${test.location}" destdir="${testbin.location}">
+          <classpath>
+            <path location="${junit.location}"/>
+            <path location="${bin.location}"/>
+          </classpath>
+        </javac>
+
+      <echo message="Done!"/>
+    </target>
+
+<!-- LANCER LES TESTS -->
+
+    <target name="runTests" depends="build">
+
+      <junit>
+        <classpath>
+          <path location="${bin.location}" />    
+          <path location="${junit.location}"/>
+        </classpath>    
+        <batchtest>
+          <fileset dir="${testbin.location}">
+            <include name="**/*Test*" />
+          </fileset>
+        </batchtest>
+      </junit>
+
+      <echo message="Done!"/>
+    </target>
+
+<!-- CREER UN JAR -->
+
+    <target name="makeJar" depends="getPaths">
+        <delete file="${bin.location}/binRunnable.jar"/>
+      <jar destfile="${bin.location}/binRunnable.jar" basedir="${bin.location}">
+        <manifest>
+          <attribute name="Main-Class" value="jeudego.Main" />
+        </manifest>
+      </jar>
+    </target>
+
+<!-- LANCER LE JAR -->    
+
+    <target name="runJar" depends="makeJar">
+      <java fork="true" classname="jeudego.Main">
+        <classpath>
+          <path location="${bin.location}/binRunnable.jar"/>
+        </classpath>
+      </java>
+    </target>
+
+<!-- GENERATE JAVADOC -->    
+
+    <target name="javaDoc" depends="getPaths">
+      <javadoc packagenames="jeudego.*"
+             sourcepath="${src.location}"
+             destdir="${docs.location}"
+             author="true"
+             version="true"
+             use="true"
+             windowtitle="Test API">
+      <doctitle><![CDATA[<h1>Test</h1>]]></doctitle>
+      <bottom><![CDATA[<i>Copyright &#169; 2000 Dummy Corp. All Rights Reserved.</i>]]></bottom>
+      <tag name="todo" scope="all" description="To do:"/>
+      <group title="Group 1 Packages" packages="com.dummy.test.a*"/>
+      <group title="Group 2 Packages" packages="com.dummy.test.b*:com.dummy.test.c*"/>
+      <link offline="true" href="http://docs.oracle.com/javase/7/docs/api/" packagelistLoc="C:\tmp"/>
+      <link href="http://docs.oracle.com/javase/7/docs/api/"/>
+    </javadoc>
+    </target>
+
+
+<!-- LANCER SONAR -->    
+
+    <target name="runSonar" depends="getPaths">
+
+      <exec executable="cmd.exe" spawn="true">
+        <arg value="/c C:\Users\IAZERTYUIOPI\Downloads\sonarqube-4.5.2\bin\windows-x86-64\StartSonar.bat"/>
+      </exec>
+
+      <waitfor maxwait="10" maxwaitunit="second">
+        <http url="http://localhost:9000/dashboard/index/TPSonar"/>
+      </waitfor>
+
+      <exec executable="C:\Users\IAZERTYUIOPI\Downloads\sonar-runner-2.4\bin\sonar-runner.bat"/>
+
+      <exec executable="explorer.exe">
+        <arg value="http://localhost:9000/dashboard/index/TPSonar"/>
+      </exec>
+
+
+    </target>
+
+
+    <target name="fairelecafé" depends="getPaths,javaDoc,runTests,runSonar">
+    </target>
+
+
+</project>

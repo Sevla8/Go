@@ -1,0 +1,4 @@
+5 <- taille
+N B N _ _
+B N B _ B
+B B _ _ B

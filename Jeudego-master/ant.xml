@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jeudego" default="build" basedir=".">
+	<description>This is a simple test project.</description>
+	<target name="checkDependencies" description="Check if dependencies are satisfied">
+		
+		<property name="src.location" location="src"/>
+		<property name="bin.location" location="bin"/>
+
+		<echo message="Source directory is ${src.location}"/>
+		<condition property="src.available">
+			<and>
+				<available file="${src.location}" type="dir"/>
+				<available file="${bin.location}" type="dir"/>
+			</and>
+		</condition>
+	</target>
+
+	<target name="build" description="Build the application" depends="checkDependencies" if="src.available">
+		<echo message="Building application..."/>
+		<javac srcdir="${src.location}" destdir="${bin.location}"/>
+		<echo message="Done!"/>
+	</target>
+
+	<!--
+	<target name="test" description="build the tests" depends="aucune idée">
+		checkExistance,
+		Download
+		run
+	</target>
+	!-->
+</project>
