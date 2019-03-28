@@ -1,7 +1,11 @@
 public class Parameter {
-	public int size;
+	private int size;
 
-	public Parameter() {
-		this.size = 19;
+	public Parameter(int size) {
+		this.size = size;
+	}
+
+	public int getSize() {
+		return this.size;
 	}
 }

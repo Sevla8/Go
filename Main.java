@@ -1,15 +1,11 @@
 public class Main {
 	public static void main(String args[]){
+
+		Parameter parameter = new Parameter(19);
+		Go go = new Go(parameter);
+
+		Stone stone = new Stone(Color.WHITE, 15, 6);
+		System.out.println(stone.toString());
 		
-		Go go = new Go(9);
-		Coord coord1 = new Coord(4, 0);
-		// Coord coord2 = new Coord(6, 7);
-		// Coord coord3 = new Coord(7, 7);
-
-		// go.setStone(coord1);
-		// go.setStone(coord3);
-		int z = go.getLiberty(coord1);
-
-		System.out.println(z);
 	}
 }
