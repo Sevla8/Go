@@ -3,9 +3,13 @@ public class Main {
 
 		Parameter parameter = new Parameter(19);
 		Go go = new Go(parameter);
+		go.setStone(new Stone(Color.WHITE, 5, 9));
+		go.setStone(new Stone(Color.BLACK, 18, 9));
+		go.setStone(new Stone(Color.WHITE, 0, 0));
+		go.setStone(new Stone(Color.WHITE, 7, 13));
 
-		Stone stone = new Stone(Color.WHITE, 15, 6);
-		System.out.println(stone.toString());
+		System.out.println(go.toString());
+		System.out.println(go.getLiberty(new Stone(Color.BLACK, 18, 9)));
 		
 	}
 }

@@ -5,6 +5,11 @@ public class Parameter {
 		this.size = size;
 	}
 
+	@Override
+	public String toString() {
+		return "size : \n\t" + this.size;
+	}
+
 	public int getSize() {
 		return this.size;
 	}
