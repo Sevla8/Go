@@ -1,5 +1,6 @@
 public class Parameter {
 	private int size;
+	private int caseSize = 20;
 	private String watchType;
 
 	public Parameter(int size, String watchType) throws WatchTypeException, SizeException  {
@@ -20,5 +21,8 @@ public class Parameter {
 
 	public int getSize() {
 		return this.size;
+	}
+	public int getCaseSize() {
+		return this.caseSize;
 	}
 }

@@ -166,6 +166,10 @@ public class Go {
 		this.winner = this.turn.other();
 	}
 
+	// public void print() {
+	// 	this.
+	// }
+
 	@Override
 	public String toString() {
 		String string = new String();
