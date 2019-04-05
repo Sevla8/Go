@@ -3,8 +3,11 @@ import java.util.ArrayList;
 public class Go {
 	private Color[][] goban;
 	private Color turn;
-	private Parameter parameter; // Exception if size != 19 | 13 | 9 !!!
+	private Parameter parameter;
 	private ArrayList<Color> prisoner;
+	private Color winner;
+	private Score score;
+	private Historic historic;
 
 	public Go(Parameter parameter) {
 		this.goban = new Color[parameter.getSize()][parameter.getSize()];
@@ -15,6 +18,9 @@ public class Go {
 		this.turn = Color.BLACK;
 		this.parameter = parameter;
 		this.prisoner = new ArrayList<Color>();
+		this.winner = null;
+		this.score = new Score(7.5, 0.);
+		this.historic = new Historic();
 	}
 
 	public boolean inGoban(int x, int y) {
@@ -156,6 +162,10 @@ public class Go {
 		}
 	}
 
+	public void giveUp() {
+		this.winner = this.turn.other();
+	}
+
 	@Override
 	public String toString() {
 		String string = new String();
@@ -196,5 +206,8 @@ public class Go {
 	}
 	public ArrayList<Color> getPrisoner() {
 		return this.prisoner;
+	}
+	public Color getWinner() {
+		return this.winner;
 	}
 }
