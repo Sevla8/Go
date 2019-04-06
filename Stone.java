@@ -1,10 +1,10 @@
 public class Stone {
-	private Color color;
+	private Player player;
 	private int x;
 	private int y;
 
-	public Stone(Color color, int x, int y) {
-		this.color = color;
+	public Stone(Player player, int x, int y) {
+		this.player = player;
 		this.x = x;
 		this.y = y;
 	}
@@ -16,7 +16,7 @@ public class Stone {
 		if (this.getClass() != object.getClass())
 			return false;
 		Stone stone = (Stone) object;
-		if (this.color != stone.color)
+		if (this.player != stone.player)
 			return false;
 		if (this.x != stone.x)
 			return false;
@@ -28,7 +28,7 @@ public class Stone {
 	@Override
 	public String toString() {
 		return "{" +
-				this.color.toString() +
+				this.player.toString() +
 				", " + 
 				this.x + 
 				", " + 
@@ -36,8 +36,8 @@ public class Stone {
 				"}";
 	}
 
-	public Color getColor() {
-		return this.color;
+	public Player getPlayer() {
+		return this.player;
 	}
 	public int getX() {
 		return this.x;

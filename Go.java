@@ -1,23 +1,23 @@
 import java.util.ArrayList;
 
 public class Go {
-	private Color[][] goban;
-	private Color turn;
+	private Player[][] goban;
+	private Player turn;
 	private Parameter parameter;
-	private ArrayList<Color> prisoner;
-	private Color winner;
+	private ArrayList<Player> prisoner;
+	private Player winner;
 	private Score score;
 	private Historic historic;
 
 	public Go(Parameter parameter) {
-		this.goban = new Color[parameter.getSize()][parameter.getSize()];
-		for (Color son[] : this.goban) {
-			for (Color cell : son)
+		this.goban = new Player[parameter.getSize()][parameter.getSize()];
+		for (Player son[] : this.goban) {
+			for (Player cell : son)
 				cell = null;
 		}
-		this.turn = Color.BLACK;
+		this.turn = Player.BLACK;
 		this.parameter = parameter;
-		this.prisoner = new ArrayList<Color>();
+		this.prisoner = new ArrayList<Player>();
 		this.winner = null;
 		this.score = new Score(7.5, 0.);
 		this.historic = new Historic();
@@ -39,16 +39,16 @@ public class Go {
 		return liberty == 0 ? true : false;
 	}
 
-	public Color getStatus(int x, int y) {
+	public Player getStatus(int x, int y) {
 		if (this.goban[y][x] == null)
 			return null;
-		if (this.goban[y][x] == Color.WHITE)
-			return Color.WHITE;
-		return Color.BLACK;
+		if (this.goban[y][x] == Player.WHITE)
+			return Player.WHITE;
+		return Player.BLACK;
 	}
 
 	public void setStone(Stone stone) {
-		this.goban[stone.getY()][stone.getX()] = stone.getColor();
+		this.goban[stone.getY()][stone.getX()] = stone.getPlayer();
 	}
 
 	public int getLiberty(Stone stone) {
@@ -94,35 +94,35 @@ public class Go {
 	public ArrayList<Stone> getGroup(Stone stone) {
 		ArrayList<Stone> group = new ArrayList<Stone>();
 		group.add(stone);
-		group = this.getGroupRec(group, stone.getColor());
+		group = this.getGroupRec(group, stone.getPlayer());
 		return group;
 	}
 
-	public ArrayList<Stone> getGroupRec(ArrayList<Stone> group, Color color) {
+	public ArrayList<Stone> getGroupRec(ArrayList<Stone> group, Player Player) {
 		int x = group.get(group.size()-1).getX();
 		int y = group.get(group.size()-1).getY();
 		if (inGoban(x-1, y)) {
-			if (this.goban[y][x-1] == color && !group.contains(new Stone(this.goban[y][x-1], x-1, y))) {
+			if (this.goban[y][x-1] == Player && !group.contains(new Stone(this.goban[y][x-1], x-1, y))) {
 				group.add(new Stone(this.goban[y][x-1], x-1, y));
-				getGroupRec(group, color);
+				getGroupRec(group, Player);
 			}
 		}
 		if (inGoban(x+1, y)) {
-			if (this.goban[y][x+1] == color && !group.contains(new Stone(this.goban[y][x+1], x+1, y))) {
+			if (this.goban[y][x+1] == Player && !group.contains(new Stone(this.goban[y][x+1], x+1, y))) {
 				group.add(new Stone(this.goban[y][x+1], x+1, y));
-				getGroupRec(group, color);
+				getGroupRec(group, Player);
 			}
 		}
 		if (inGoban(x, y+1)) {
-			if (this.goban[y+1][x] == color && !group.contains(new Stone(this.goban[y+1][x], x, y+1))) {
+			if (this.goban[y+1][x] == Player && !group.contains(new Stone(this.goban[y+1][x], x, y+1))) {
 				group.add(new Stone(this.goban[y+1][x], x, y+1));
-				getGroupRec(group, color);
+				getGroupRec(group, Player);
 			}
 		}
 		if (inGoban(x, y-1)) {
-			if (this.goban[y-1][x] == color && !group.contains(new Stone(this.goban[y-1][x], x, y-1))) {
+			if (this.goban[y-1][x] == Player && !group.contains(new Stone(this.goban[y-1][x], x, y-1))) {
 				group.add(new Stone(this.goban[y-1][x], x, y-1));
-				getGroupRec(group, color);
+				getGroupRec(group, Player);
 			}
 		}
 		return group;
@@ -133,13 +133,13 @@ public class Go {
 		int y = stone.getY();
 		boolean bool = false;
 		if (inGoban(x, y+1))
-			bool |= this.goban[y+1][x] == stone.getColor() ? true : false;
+			bool |= this.goban[y+1][x] == stone.getPlayer() ? true : false;
 		if (inGoban(x, y-1))
-			bool |= this.goban[y-1][x] == stone.getColor() ? true : false;
+			bool |= this.goban[y-1][x] == stone.getPlayer() ? true : false;
 		if (inGoban(x+1, y))
-			bool |= this.goban[y][x+1] == stone.getColor() ? true : false;
+			bool |= this.goban[y][x+1] == stone.getPlayer() ? true : false;
 		if (inGoban(x-1, y))
-			bool |= this.goban[y][x-1] == stone.getColor() ? true : false;
+			bool |= this.goban[y][x-1] == stone.getPlayer() ? true : false;
 		return bool;
 	}
 
@@ -157,7 +157,7 @@ public class Go {
 
 	public void setPrisoners(ArrayList<Stone> group) {
 		for (Stone stone : group) {
-			this.prisoner.add(stone.getColor());
+			this.prisoner.add(stone.getPlayer());
 			this.goban[stone.getY()][stone.getX()] = null;
 		}
 	}
@@ -174,13 +174,13 @@ public class Go {
 	public String toString() {
 		String string = new String();
 		string = "goban : \n\t";
-		for (Color son[] : this.goban) {
-			for (Color cell : son) {
+		for (Player son[] : this.goban) {
+			for (Player cell : son) {
 				if (cell == null)
 					string += ". ";
-				else if (cell == Color.WHITE)
+				else if (cell == Player.WHITE)
 					string += "0 ";
-				else if (cell == Color.BLACK)
+				else if (cell == Player.BLACK)
 					string += "1 ";
 			}
 			string += "\n\t";
@@ -199,19 +199,19 @@ public class Go {
 		return string;
 	}
 
-	public Color[][] getGoban() {
+	public Player[][] getGoban() {
 		return this.goban;
 	}
-	public Color getTurn() {
+	public Player getTurn() {
 		return this.turn;
 	}
 	public Parameter getParameter() {
 		return this.parameter;
 	}
-	public ArrayList<Color> getPrisoner() {
+	public ArrayList<Player> getPrisoner() {
 		return this.prisoner;
 	}
-	public Color getWinner() {
+	public Player getWinner() {
 		return this.winner;
 	}
 }

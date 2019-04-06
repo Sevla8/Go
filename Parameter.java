@@ -1,22 +1,26 @@
 public class Parameter {
 	private int size;
-	private int caseSize = 20;
-	private String watchType;
+	private int caseSize = 30;
+	private int marge = 60;
+	private String watch;
 
-	public Parameter(int size, String watchType) throws WatchTypeException, SizeException  {
+	public Parameter(int size, String watch) throws WatchException, SizeException {
 		if (size != 9 && size != 13 && size != 19)
 			throw new SizeException();
-		if (!watchType.equals("none") && !watchType.equals("absolute") && !watchType.equals("byo-yomi"))
-			throw new WatchTypeException();
+		if (!watch.equals("none") && !watch.equals("absolute") && !watch.equals("byo-yomi"))
+			throw new WatchException();
 		else {
 			this.size = size;
-			this.watchType = watchType;
+			this.watch = watch;
 		}
 	}
 
 	@Override
 	public String toString() {
-		return "size : \n\t" + this.size + "\nwatch : \n\t" + this.watchType;
+		return "size : \n\t" + this.size + 
+				"\ncaseSize : \n\t" + this.caseSize +
+				"\nmarge : \n\t" + this.marge +
+				"\nwatch : \n\t" + this.watch;
 	}
 
 	public int getSize() {
@@ -24,5 +28,11 @@ public class Parameter {
 	}
 	public int getCaseSize() {
 		return this.caseSize;
+	}
+	public int getMarge() {
+		return this.marge;
+	}
+	public String getWatch() {
+		return this.watch;
 	}
 }
