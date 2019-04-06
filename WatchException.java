@@ -1,8 +1,8 @@
 import java.lang.Exception;
 
-public class WatchTypeException extends Exception {
+public class WatchException extends Exception {
 
-	public WatchTypeException() {
+	public WatchException() {
 		System.out.println("The watch type must be in ('none', 'absolute', 'byo-yomi')");
 	}
 }
