@@ -1,10 +1,10 @@
 import java.util.LinkedList;
 
 public class Historic {
-	LinkedList<Color[][]> list;
+	LinkedList<Player[][]> list;
 
 	public Historic() {
-		this.list = new LinkedList<Color[][]>();
+		this.list = new LinkedList<Player[][]>();
 	}
 
 }
