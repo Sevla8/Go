@@ -1,19 +1,19 @@
 import java.util.ArrayList;
 
 public class Go {
-	private Player[][] goban;
+	private Score score;
 	private Player turn;
+	private Player winner;
+	private Player[][] goban;
+	private Historic historic;
 	private Parameter parameter;
 	private ArrayList<Player> prisoner;
-	private Player winner;
-	private Score score;
-	private Historic historic;
 
 	public Go(Parameter parameter) {
 		this.goban = new Player[parameter.getSize()][parameter.getSize()];
-		for (Player son[] : this.goban) {
-			for (Player cell : son)
-				cell = null;
+		for (int i = 0; i < parameter.getSize(); i += 1) {
+			for (int j = 0; j < parameter.getSize(); j += 1)
+				this.goban[i][j] = null;
 		}
 		this.turn = Player.BLACK;
 		this.parameter = parameter;
@@ -165,10 +165,6 @@ public class Go {
 	public void giveUp() {
 		this.winner = this.turn.other();
 	}
-
-	// public void print() {
-	// 	this.
-	// }
 
 	@Override
 	public String toString() {

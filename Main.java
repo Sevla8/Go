@@ -1,5 +1,5 @@
-import java.util.ArrayList;
 import javax.swing.JFrame;
+import java.util.ArrayList;
 
 public class Main {
 	public static void main(String args[]){
@@ -26,19 +26,11 @@ public class Main {
 		go.setStone(new Stone(Player.BLACK, 8, 14));
 		go.setStone(new Stone(Player.WHITE, 8, 15));
 		go.setStone(new Stone(Player.BLACK, 9, 15));
-
-		// go.makePrisoners();
+		Goban goban = new Goban(go);
 
 		System.out.println(go.toString());
 
-		JFrame frame = new JFrame();
-		frame.setSize(700, 700);
-		frame.setLocation(5, 30);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Goban");
-		Goban goban = new Goban(go);
-		goban.setOpaque(true);
-		frame.add(goban);
-		frame.setVisible(true);
+		MyFrame myFrame = new MyFrame(goban);
+		myFrame.run();
 	}
 }
