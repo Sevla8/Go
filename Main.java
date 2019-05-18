@@ -6,16 +6,17 @@ public class Main {
 
 		Parameter parameter = null;
 		try {
-			parameter = new Parameter(19, "none");
+			parameter = new Parameter(19, Watch.NONE);
 		}
 		catch (SizeException sizeException) {
 			sizeException.printStackTrace();
 		}
-		catch (WatchException watchException) {
-			watchException.printStackTrace();
-		}
 		
-		Go go = new Go(parameter);
+		MyFrame myFrame = new MyFrame();
+		FirstScreen firstScreen = new FirstScreen(myFrame, parameter);
+		myFrame.setVisible(true);
+
+/*		Go go = new Go(parameter);
 		go.setStone(new Stone(Player.WHITE, 5, 9));
 		go.setStone(new Stone(Player.BLACK, 18, 9));
 		go.setStone(new Stone(Player.WHITE, 0, 0));
@@ -26,11 +27,9 @@ public class Main {
 		go.setStone(new Stone(Player.BLACK, 8, 14));
 		go.setStone(new Stone(Player.WHITE, 8, 15));
 		go.setStone(new Stone(Player.BLACK, 9, 15));
+
 		Goban goban = new Goban(go);
-
-		System.out.println(go.toString());
-
-		MyFrame myFrame = new MyFrame(goban);
-		myFrame.run();
+*/
+		// System.out.println(go.toString());
 	}
 }
