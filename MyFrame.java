@@ -9,26 +9,4 @@ public class MyFrame extends JFrame {
 		this.setTitle("Go");
 		// this.setLayout(null);		
 	}
-
-	public MyFrame(Goban goban) {
-		this();
-		this.add(goban);
-		goban.setOpaque(true);
-	}
-
-	public MyFrame(Menu menu) {
-		this();
-		this.add(menu);
-		menu.setOpaque(true);
-	}
-
-	public MyFrame(FirstScreen firstScreen) {
-		this();
-		this.add(firstScreen);
-		firstScreen.setOpaque(true);
-	}
-
-	public void run() {
-		this.setVisible(true);
-	}
 }
