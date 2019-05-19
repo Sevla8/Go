@@ -1,1 +1,1 @@
-# Jeu-De-Go
+# Go game
