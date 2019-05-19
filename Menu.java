@@ -2,7 +2,7 @@ import java.awt.Color;
 import javax.swing.Box;
 import java.awt.Graphics;
 import javax.swing.JPanel;
-import javax.swing.JButton; 
+import javax.swing.JButton;
 import javax.swing.BoxLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
