@@ -3,18 +3,7 @@ import java.util.ArrayList;
 
 public class Main {
 	public static void main(String args[]){
-
-		Parameter parameter = null;
-		try {
-			parameter = new Parameter(19, Watch.NONE);
-		}
-		catch (SizeException sizeException) {
-			sizeException.printStackTrace();
-		}
-		
-		MyFrame myFrame = new MyFrame();
-		FirstScreen firstScreen = new FirstScreen(myFrame, parameter);
-		myFrame.setVisible(true);
+		Control control = new Control();
 
 /*		Go go = new Go(parameter);
 		go.setStone(new Stone(Player.WHITE, 5, 9));
