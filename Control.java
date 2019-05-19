@@ -47,15 +47,25 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.menu.getQuit())
 			this.myFrame.dispose();
-		else if (e.getSource() == this.menu.getOption())
+		else if (e.getSource() == this.menu.getOption()) {
 			this.addOption();
+			if (this.goban.getGo().getParameter().getSize() == 19)
+				this.option.getSize19().setSelected(true);
+			else if (this.goban.getGo().getParameter().getSize() == 13)
+				this.option.getSize13().setSelected(true);
+			else
+				this.option.getSize9().setSelected(true);
+			if (this.goban.getGo().getParameter().getWatch() == Watch.NONE)
+				this.option.getNoneWatch().setSelected(true);
+			else if (this.goban.getGo().getParameter().getWatch() == Watch.ABSOLUTE)
+				this.option.getAbsoluteWatch().setSelected(true);
+			else
+				this.option.getByoYomiWatch().setSelected(true);
+		}
 		else if (e.getSource() == this.menu.getStart())
 			this.addGoban();
 
-		else if (e.getSource() == this.option.getSave() &&
-			(this.option.getNoneWatch().isSelected() || this.option.getAbsoluteWatch().isSelected() || this.option.getByoYomiWatch().isSelected()) &&
-			(this.option.getSize9().isSelected() || this.option.getSize13().isSelected() || this.option.getSize19().isSelected())) {
-			
+		else if (e.getSource() == this.option.getSave()) {
 			if (this.option.getSize9().isSelected())
 				this.goban.getGo().getParameter().setSize(9);
 			else if (this.option.getSize13().isSelected())
@@ -69,7 +79,6 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 			else 
 				this.goban.getGo().getParameter().setWatch(Watch.BYO_YOMI);
 		}
-		
 		else if (e.getSource() == this.option.getBack())
 			this.addMenu();
 	}
