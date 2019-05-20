@@ -22,28 +22,23 @@ class Board extends JPanel {
 
 		g.setColor(Color.GRAY);
 		if (this.go.getParameter().getSize() == 19) {
-			g.fillOval(3*caseSize-caseSize/10+marge, 3*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
-			g.fillOval(3*caseSize-caseSize/10+marge, 9*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
-			g.fillOval(3*caseSize-caseSize/10+marge, 15*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
-			g.fillOval(9*caseSize-caseSize/10+marge, 3*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
-			g.fillOval(9*caseSize-caseSize/10+marge, 9*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
-			g.fillOval(9*caseSize-caseSize/10+marge, 15*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
-			g.fillOval(15*caseSize-caseSize/10+marge, 3*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
-			g.fillOval(15*caseSize-caseSize/10+marge, 9*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
-			g.fillOval(15*caseSize-caseSize/10+marge, 15*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			for (int i = 1; i <= 5; i += 2) {
+				for (int j = 1; j <= 5; j += 2)
+					g.fillOval(3*i*caseSize-caseSize/10+marge, 3*j*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			}
 		}
 		else if (this.go.getParameter().getSize() == 13) {
-			g.fillOval(3*caseSize-caseSize/10+marge, 3*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
-			g.fillOval(3*caseSize-caseSize/10+marge, 9*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
-			g.fillOval(9*caseSize-caseSize/10+marge, 3*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
-			g.fillOval(9*caseSize-caseSize/10+marge, 9*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			for (int i = 3; i <= 9; i *= 3) {
+				for (int j = 3; j <= 9; j *= 3)
+					g.fillOval(i*caseSize-caseSize/10+marge, j*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			}
 			g.fillOval(6*caseSize-caseSize/10+marge, 6*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
 		}
 		else {
-			g.fillOval(2*caseSize-caseSize/10+marge, 2*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
-			g.fillOval(2*caseSize-caseSize/10+marge, 6*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
-			g.fillOval(6*caseSize-caseSize/10+marge, 2*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
-			g.fillOval(6*caseSize-caseSize/10+marge, 6*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			for (int i = 2; i <= 6; i *= 3) {
+				for (int j = 2; j <= 6; j *= 3)
+					g.fillOval(i*caseSize-caseSize/10+marge, j*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			}
 			g.fillOval(4*caseSize-caseSize/10+marge, 4*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
 		}
 
