@@ -49,15 +49,15 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 			this.myFrame.dispose();
 		else if (e.getSource() == this.menu.getOption()) {
 			this.addOption();
-			if (this.goban.getGo().getParameter().getSize() == 19)
+			if (this.goban.getBoard().getGo().getParameter().getSize() == 19)
 				this.option.getSize19().setSelected(true);
-			else if (this.goban.getGo().getParameter().getSize() == 13)
+			else if (this.goban.getBoard().getGo().getParameter().getSize() == 13)
 				this.option.getSize13().setSelected(true);
 			else
 				this.option.getSize9().setSelected(true);
-			if (this.goban.getGo().getParameter().getWatch() == Watch.NONE)
+			if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.NONE)
 				this.option.getNoneWatch().setSelected(true);
-			else if (this.goban.getGo().getParameter().getWatch() == Watch.ABSOLUTE)
+			else if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE)
 				this.option.getAbsoluteWatch().setSelected(true);
 			else
 				this.option.getByoYomiWatch().setSelected(true);
@@ -67,17 +67,17 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 
 		else if (e.getSource() == this.option.getSave()) {
 			if (this.option.getSize9().isSelected())
-				this.goban.getGo().getParameter().setSize(9);
+				this.goban.getBoard().getGo().getParameter().setSize(9);
 			else if (this.option.getSize13().isSelected())
-				this.goban.getGo().getParameter().setSize(13);
+				this.goban.getBoard().getGo().getParameter().setSize(13);
 			else 
-				this.goban.getGo().getParameter().setSize(19);
+				this.goban.getBoard().getGo().getParameter().setSize(19);
 			if (this.option.getNoneWatch().isSelected())
-				this.goban.getGo().getParameter().setWatch(Watch.NONE);
+				this.goban.getBoard().getGo().getParameter().setWatch(Watch.NONE);
 			else if (this.option.getAbsoluteWatch().isSelected())
-				this.goban.getGo().getParameter().setWatch(Watch.ABSOLUTE);
+				this.goban.getBoard().getGo().getParameter().setWatch(Watch.ABSOLUTE);
 			else 
-				this.goban.getGo().getParameter().setWatch(Watch.BYO_YOMI);
+				this.goban.getBoard().getGo().getParameter().setWatch(Watch.BYO_YOMI);
 		}
 		else if (e.getSource() == this.option.getBack())
 			this.addMenu();
@@ -94,15 +94,15 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 
 	public void mouseClicked(MouseEvent e) {
 		if (this.click == Click.LEFT) {
-			int caseSize = this.goban.getGo().getParameter().getCaseSize();
-			int marge = this.goban.getGo().getParameter().getMarge();
+			int caseSize = this.goban.getBoard().getGo().getParameter().getCaseSize();
+			int marge = this.goban.getBoard().getGo().getParameter().getMarge();
 
 			int x = (e.getX()-marge+caseSize/2)/caseSize;
 			int y = (e.getY()-marge+caseSize/2)/caseSize;
 
-			if (this.goban.getGo().inGoban(x, y)) {
-				this.goban.getGo().getGoban()[y][x] = this.goban.getGo().getTurn() == Player.WHITE ? Player.WHITE : Player.BLACK;
-				this.goban.repaint();
+			if (this.goban.getBoard().getGo().inGoban(x, y)) {
+				this.goban.getBoard().getGo().getGoban()[y][x] = this.goban.getBoard().getGo().getTurn() == Player.WHITE ? Player.WHITE : Player.BLACK;
+				this.goban.getBoard().repaint();
 			}
 		}
 	}
