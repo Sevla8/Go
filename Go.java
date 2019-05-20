@@ -1,13 +1,19 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Go {
-	private Score score;
 	private Player turn;
 	private Player winner;
+	private int blackSkip;
+	private int whiteSkip;
+	private boolean gameOver;
 	private Player[][] goban;
-	private Historic historic;
+	private double blackScore;
+	private double whiteScore;
+	private int blackPrisoner;
+	private int whitePrisoner;
 	private Parameter parameter;
-	private ArrayList<Player> prisoner;
+	private LinkedList<Player[][]> historic;
 
 	public Go(Parameter parameter) {
 		this.goban = new Player[parameter.getSize()][parameter.getSize()];
@@ -17,10 +23,52 @@ public class Go {
 		}
 		this.turn = Player.BLACK;
 		this.parameter = parameter;
-		this.prisoner = new ArrayList<Player>();
+		this.blackPrisoner = 0;
+		this.whitePrisoner = 0;
+		this.whiteSkip = 0;
+		this.blackSkip = 0;
 		this.winner = null;
-		this.score = new Score(7.5, 0.);
-		this.historic = new Historic();
+		this.blackScore = 0.;
+		this.whiteScore = 7.5;
+		this.historic = new LinkedList<Player[][]>();
+		this.historic.add(this.goban);
+		this.gameOver = false;
+	}
+
+	public void play(int x, int y) {
+		if (this.correctMove(x, y) && !this.gameOver) {
+			this.setStone(x, y);
+			this.turnOver();
+			this.makePrisoners();
+			if (this.turn == Player.BLACK)
+				this.blackSkip = 0;
+			else 
+				this.whiteSkip = 0;
+		}
+	}
+
+	public void skip() {
+		if (this.turn == Player.BLACK) {
+			this.blackSkip = 1;
+			if (this.whiteSkip == 1)
+				this.gameOver = true;
+		}
+		else {
+			this.whiteSkip = 1;
+			if (this.blackSkip == 1)
+				this.gameOver = true;
+		}
+		this.turnOver();
+	}
+
+	public boolean correctMove(int x, int y) {
+		if (!inGoban(x, y))
+			return false;
+		if (this.goban[y][x] != null)
+			return false;
+		if (this.suicide(new Stone(this.turn, x, y)))
+			return false;
+		return true;
 	}
 
 	public boolean inGoban(int x, int y) {
@@ -30,6 +78,8 @@ public class Go {
 	}
 
 	public void turnOver() {
+		if (this.gameOver)
+			System.out.println("this is the end");
 		this.turn = this.turn.other();
 	}
 
@@ -47,8 +97,8 @@ public class Go {
 		return Player.BLACK;
 	}
 
-	public void setStone(Stone stone) {
-		this.goban[stone.getY()][stone.getX()] = stone.getPlayer();
+	public void setStone(int x, int y) {
+		this.goban[y][x] = this.turn;
 	}
 
 	public int getLiberty(Stone stone) {
@@ -149,21 +199,25 @@ public class Go {
 				if (this.goban[i][j] != null) {
 					ArrayList<Stone> group = this.getGroup(new Stone(this.goban[i][j], j, i));
 					if (this.getGroupLiberty(group) == 0)
-						this.setPrisoners(group);
+						this.updatePrisoners(group);
 				}	
 			}
 		}
 	}
 
-	public void setPrisoners(ArrayList<Stone> group) {
+	public void updatePrisoners(ArrayList<Stone> group) {
 		for (Stone stone : group) {
-			this.prisoner.add(stone.getPlayer());
+			if (stone.getPlayer() == Player.BLACK)
+				this.blackPrisoner += 1;
+			else 
+				this.whitePrisoner += 1;
 			this.goban[stone.getY()][stone.getX()] = null;
 		}
 	}
 
 	public void giveUp() {
 		this.winner = this.turn.other();
+		this.gameOver = true;
 	}
 
 	@Override
@@ -184,30 +238,45 @@ public class Go {
 		string += "\nturn : \n\t" + this.getTurn().toString();
 		string += "\n\nparameter : \n\t" + this.parameter.toString();
 		string += "\nprisoner : \n\t";
-		string += "{";
-		for (int i = 0; i < this.prisoner.size(); i += 1) {
-			if (i != this.prisoner.size()-1) 
-				string += this.prisoner.get(i).toString() + ", ";
-			else 
-				string += this.prisoner.get(i).toString();
-		}
-		string += "}";
+		string += "black : "+this.blackPrisoner+"\n\t";
+		string += "white : "+this.whitePrisoner+"\n\t";
 		return string;
 	}
 
+	public Player getTurn() {
+		return this.turn;
+	}
+	public Player getWinner() {
+		return this.winner;
+	}
+	public int getBlackSkip() {
+		return this.blackSkip;
+	}
+	public int getWhiteSkip() {
+		return this.whiteSkip;
+	}
+	public boolean getGameOver() {
+		return this.gameOver;
+	}
 	public Player[][] getGoban() {
 		return this.goban;
 	}
-	public Player getTurn() {
-		return this.turn;
+	public double getBlackScore() {
+		return this.blackScore;
+	}
+	public double getWhiteScore() {
+		return this.whiteScore;
+	}
+	public int getBlackPrisoner() {
+		return this.blackPrisoner;
+	}
+	public int getWhitePrisoner() {
+		return this.whitePrisoner;
 	}
 	public Parameter getParameter() {
 		return this.parameter;
 	}
-	public ArrayList<Player> getPrisoner() {
-		return this.prisoner;
-	}
-	public Player getWinner() {
-		return this.winner;
+	public LinkedList<Player[][]> getHistoric() {
+		return this.historic;
 	}
 }

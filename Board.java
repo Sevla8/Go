@@ -21,6 +21,33 @@ class Board extends JPanel {
 		int marge = this.go.getParameter().getMarge();
 
 		g.setColor(Color.GRAY);
+		if (this.go.getParameter().getSize() == 19) {
+			g.fillOval(3*caseSize-caseSize/10+marge, 3*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(3*caseSize-caseSize/10+marge, 9*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(3*caseSize-caseSize/10+marge, 15*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(9*caseSize-caseSize/10+marge, 3*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(9*caseSize-caseSize/10+marge, 9*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(9*caseSize-caseSize/10+marge, 15*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(15*caseSize-caseSize/10+marge, 3*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(15*caseSize-caseSize/10+marge, 9*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(15*caseSize-caseSize/10+marge, 15*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+		}
+		else if (this.go.getParameter().getSize() == 13) {
+			g.fillOval(3*caseSize-caseSize/10+marge, 3*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(3*caseSize-caseSize/10+marge, 9*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(9*caseSize-caseSize/10+marge, 3*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(9*caseSize-caseSize/10+marge, 9*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(6*caseSize-caseSize/10+marge, 6*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+		}
+		else {
+			g.fillOval(2*caseSize-caseSize/10+marge, 2*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(2*caseSize-caseSize/10+marge, 6*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(6*caseSize-caseSize/10+marge, 2*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(6*caseSize-caseSize/10+marge, 6*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+			g.fillOval(4*caseSize-caseSize/10+marge, 4*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
+		}
+
+		g.setColor(Color.GRAY);
 		for (int i = 0; i < size; i += 1) {
 			g.drawLine(i*caseSize+marge, 0+marge, i*caseSize+marge, (size-1)*caseSize+marge);
 			g.drawLine(0+marge, i*caseSize+marge, (size-1)*caseSize+marge, i*caseSize+marge);

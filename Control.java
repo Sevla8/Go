@@ -78,9 +78,13 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 				this.goban.getBoard().getGo().getParameter().setWatch(Watch.ABSOLUTE);
 			else 
 				this.goban.getBoard().getGo().getParameter().setWatch(Watch.BYO_YOMI);
+			this.addMenu();
 		}
 		else if (e.getSource() == this.option.getBack())
 			this.addMenu();
+
+		else if (e.getSource() == this.goban.getSkip())
+			this.goban.getBoard().getGo().skip();
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -100,10 +104,8 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 			int x = (e.getX()-marge+caseSize/2)/caseSize;
 			int y = (e.getY()-marge+caseSize/2)/caseSize;
 
-			if (this.goban.getBoard().getGo().inGoban(x, y)) {
-				this.goban.getBoard().getGo().getGoban()[y][x] = this.goban.getBoard().getGo().getTurn() == Player.WHITE ? Player.WHITE : Player.BLACK;
-				this.goban.getBoard().repaint();
-			}
+			this.goban.getBoard().getGo().play(x, y);
+			this.goban.getBoard().repaint();
 		}
 	}
 
