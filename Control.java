@@ -85,6 +85,16 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 
 		else if (e.getSource() == this.goban.getSkip())
 			this.goban.getBoard().getGo().skip();
+		else if (e.getSource() == this.goban.getGiveUp())
+			this.goban.getBoard().getGo().giveUp();
+		else if (e.getSource() == this.goban.getUndo()) {
+			this.goban.getBoard().getGo().undo();
+			this.goban.getBoard().repaint();
+		}
+		else if (e.getSource() == this.goban.getRedo()) {
+			this.goban.getBoard().getGo().redo();
+			this.goban.getBoard().repaint();
+		}
 	}
 
 	public void mousePressed(MouseEvent e) {

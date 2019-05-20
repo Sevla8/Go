@@ -81,6 +81,13 @@ public class Go {
 		if (this.gameOver)
 			System.out.println("this is the end");
 		this.turn = this.turn.other();
+		Player[][] goban = new Player[this.parameter.getSize()][this.parameter.getSize()];
+		for (int i = 0; i < this.parameter.getSize(); i += 1) {
+			for (int j = 0; j < this.parameter.getSize(); j += 1) {
+				goban[i][j] = this.goban[i][j];
+			}
+		}
+		this.historic.add(goban);
 	}
 
 	public boolean suicide(Stone stone) {
@@ -148,31 +155,31 @@ public class Go {
 		return group;
 	}
 
-	public ArrayList<Stone> getGroupRec(ArrayList<Stone> group, Player Player) {
+	public ArrayList<Stone> getGroupRec(ArrayList<Stone> group, Player player) {
 		int x = group.get(group.size()-1).getX();
 		int y = group.get(group.size()-1).getY();
 		if (inGoban(x-1, y)) {
-			if (this.goban[y][x-1] == Player && !group.contains(new Stone(this.goban[y][x-1], x-1, y))) {
+			if (this.goban[y][x-1] == player && !group.contains(new Stone(this.goban[y][x-1], x-1, y))) {
 				group.add(new Stone(this.goban[y][x-1], x-1, y));
-				getGroupRec(group, Player);
+				getGroupRec(group, player);
 			}
 		}
 		if (inGoban(x+1, y)) {
-			if (this.goban[y][x+1] == Player && !group.contains(new Stone(this.goban[y][x+1], x+1, y))) {
+			if (this.goban[y][x+1] == player && !group.contains(new Stone(this.goban[y][x+1], x+1, y))) {
 				group.add(new Stone(this.goban[y][x+1], x+1, y));
-				getGroupRec(group, Player);
+				getGroupRec(group, player);
 			}
 		}
 		if (inGoban(x, y+1)) {
-			if (this.goban[y+1][x] == Player && !group.contains(new Stone(this.goban[y+1][x], x, y+1))) {
+			if (this.goban[y+1][x] == player && !group.contains(new Stone(this.goban[y+1][x], x, y+1))) {
 				group.add(new Stone(this.goban[y+1][x], x, y+1));
-				getGroupRec(group, Player);
+				getGroupRec(group, player);
 			}
 		}
 		if (inGoban(x, y-1)) {
-			if (this.goban[y-1][x] == Player && !group.contains(new Stone(this.goban[y-1][x], x, y-1))) {
+			if (this.goban[y-1][x] == player && !group.contains(new Stone(this.goban[y-1][x], x, y-1))) {
 				group.add(new Stone(this.goban[y-1][x], x, y-1));
-				getGroupRec(group, Player);
+				getGroupRec(group, player);
 			}
 		}
 		return group;
@@ -213,6 +220,16 @@ public class Go {
 				this.whitePrisoner += 1;
 			this.goban[stone.getY()][stone.getX()] = null;
 		}
+	}
+
+	public void undo() {
+		if (!this.historic.isEmpty()) {
+			this.goban = this.historic.get(this.historic.size()-1);
+		}
+	}
+
+	public void redo() {
+		
 	}
 
 	public void giveUp() {
