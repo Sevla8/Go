@@ -31,7 +31,18 @@ public class Go {
 		this.blackScore = 0.;
 		this.whiteScore = 7.5;
 		this.historic = new LinkedList<Player[][]>();
-		this.historic.add(this.goban);
+		Player[][] trace = new Player[this.parameter.getSize()][this.parameter.getSize()];
+		for (int i = 0; i < this.parameter.getSize(); i += 1) {
+			for (int j = 0; j < this.parameter.getSize(); j += 1) {
+				if (this.goban[i][j] == Player.BLACK)
+					trace[i][j] = Player.BLACK;
+				else if (this.goban[i][j] == Player.WHITE)
+					trace[i][j] = Player.WHITE;
+				else 
+					trace[i][j] = null;
+			}
+		}
+		this.historic.add(trace);
 		this.gameOver = false;
 	}
 
@@ -81,13 +92,18 @@ public class Go {
 		if (this.gameOver)
 			System.out.println("this is the end");
 		this.turn = this.turn.other();
-		Player[][] goban = new Player[this.parameter.getSize()][this.parameter.getSize()];
+		Player[][] trace = new Player[this.parameter.getSize()][this.parameter.getSize()];
 		for (int i = 0; i < this.parameter.getSize(); i += 1) {
 			for (int j = 0; j < this.parameter.getSize(); j += 1) {
-				goban[i][j] = this.goban[i][j];
+				if (this.goban[i][j] == Player.BLACK)
+					trace[i][j] = Player.BLACK;
+				else if (this.goban[i][j] == Player.WHITE)
+					trace[i][j] = Player.WHITE;
+				else 
+					trace[i][j] = null;
 			}
 		}
-		this.historic.add(goban);
+		this.historic.add(trace);
 	}
 
 	public boolean suicide(Stone stone) {
@@ -224,8 +240,23 @@ public class Go {
 
 	public void undo() {
 		if (!this.historic.isEmpty()) {
-			this.goban = this.historic.get(this.historic.size()-1);
+			if (this.historic.contains(this.goban)) {
+				int index = this.historic.indexOf(this.goban);
+				System.out.println(index);
+				this.goban = this.historic.get(index-1);
+				/// il ne le reconnait pas -> equals
+			}
+			
 		}
+		// for (Player[][] trace : this.historic) {
+		// 	for (int i = 0; i < 19; i += 1) {
+		// 		for (int j = 0; j < 19; j += 1) {
+		// 			System.out.print(trace[i][j]+" ");
+		// 		}
+		// 		System.out.print("\n");
+		// 	}
+		// 	System.out.print("\n\n");
+		// }
 	}
 
 	public void redo() {

@@ -88,6 +88,7 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 		else if (e.getSource() == this.goban.getGiveUp())
 			this.goban.getBoard().getGo().giveUp();
 		else if (e.getSource() == this.goban.getUndo()) {
+			System.out.println("hererererre");
 			this.goban.getBoard().getGo().undo();
 			this.goban.getBoard().repaint();
 		}
@@ -115,6 +116,8 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 			int y = (e.getY()-marge+caseSize/2)/caseSize;
 
 			this.goban.getBoard().getGo().play(x, y);
+			this.goban.getBlackPrisoner().setText("Black Prisoners : "+this.goban.getBoard().getGo().getBlackPrisoner());
+			this.goban.getWhitePrisoner().setText("White Prisoners : "+this.goban.getBoard().getGo().getWhitePrisoner());
 			this.goban.getBoard().repaint();
 		}
 	}
