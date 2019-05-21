@@ -17,20 +17,136 @@ public class Go {
 	private LinkedList<Player[][]> historic;
 
 	public Go(Parameter parameter) {
+		this.parameter = parameter;
 		this.goban = new Player[parameter.getSize()][parameter.getSize()];
 		for (int i = 0; i < parameter.getSize(); i += 1) {
 			for (int j = 0; j < parameter.getSize(); j += 1)
 				this.goban[i][j] = null;
 		}
-		this.turn = Player.BLACK;
-		this.parameter = parameter;
+		if (this.parameter.getSize() == 19) {
+			if (this.parameter.getKomi() == 2) {
+				this.goban[15][3] = Player.BLACK;
+				this.goban[3][15] = Player.BLACK;
+			}
+			else if (this.parameter.getKomi() == 3) {
+				this.goban[15][3] = Player.BLACK;
+				this.goban[3][15] = Player.BLACK;
+				this.goban[9][9] = Player.BLACK;
+			}
+			else if (this.parameter.getKomi() == 4) {
+				this.goban[15][3] = Player.BLACK;
+				this.goban[3][15] = Player.BLACK;
+				this.goban[3][3] = Player.BLACK;
+				this.goban[15][15] = Player.BLACK;
+			}
+			else if (this.parameter.getKomi() == 5) {
+				this.goban[15][3] = Player.BLACK;
+				this.goban[3][15] = Player.BLACK;
+				this.goban[3][3] = Player.BLACK;
+				this.goban[15][15] = Player.BLACK;
+				this.goban[9][9] = Player.BLACK;
+			}
+			else if (this.parameter.getKomi() == 6) {
+				this.goban[15][3] = Player.BLACK;
+				this.goban[3][15] = Player.BLACK;
+				this.goban[3][3] = Player.BLACK;
+				this.goban[15][15] = Player.BLACK;
+				this.goban[3][9] = Player.BLACK;
+				this.goban[15][9] = Player.BLACK;
+			}
+			else if (this.parameter.getKomi() == 7) {
+				this.goban[15][3] = Player.BLACK;
+				this.goban[3][15] = Player.BLACK;
+				this.goban[3][3] = Player.BLACK;
+				this.goban[15][15] = Player.BLACK;
+				this.goban[9][9] = Player.BLACK;
+				this.goban[3][9] = Player.BLACK;
+				this.goban[15][9] = Player.BLACK;
+			}
+			else if (this.parameter.getKomi() == 8) {
+				this.goban[3][3] = Player.BLACK;
+				this.goban[3][9] = Player.BLACK;
+				this.goban[3][15] = Player.BLACK;
+				this.goban[9][3] = Player.BLACK;
+				this.goban[9][15] = Player.BLACK;
+				this.goban[15][3] = Player.BLACK;
+				this.goban[15][9] = Player.BLACK;
+				this.goban[15][15] = Player.BLACK;
+			}
+			else if (this.parameter.getKomi() == 9) {
+				this.goban[3][3] = Player.BLACK;
+				this.goban[3][9] = Player.BLACK;
+				this.goban[3][15] = Player.BLACK;
+				this.goban[9][3] = Player.BLACK;
+				this.goban[9][15] = Player.BLACK;
+				this.goban[15][3] = Player.BLACK;
+				this.goban[15][9] = Player.BLACK;
+				this.goban[15][15] = Player.BLACK;
+				this.goban[9][9] = Player.BLACK;
+			}
+		}
+		else if (this.parameter.getSize() == 13) {
+			if (this.parameter.getKomi() == 2) {
+				this.goban[9][3] = Player.BLACK;
+				this.goban[3][9] = Player.BLACK;
+			}
+			else if (this.parameter.getKomi() == 3) {
+				this.goban[9][3] = Player.BLACK;
+				this.goban[3][9] = Player.BLACK;
+				this.goban[6][6] = Player.BLACK;
+			}
+			else if (this.parameter.getKomi() == 4) {
+				this.goban[9][3] = Player.BLACK;
+				this.goban[3][9] = Player.BLACK;
+				this.goban[3][3] = Player.BLACK;
+				this.goban[9][9] = Player.BLACK;
+			}
+			else if (this.parameter.getKomi() == 5) {
+				this.goban[9][3] = Player.BLACK;
+				this.goban[3][9] = Player.BLACK;
+				this.goban[3][3] = Player.BLACK;
+				this.goban[9][9] = Player.BLACK;
+				this.goban[6][6] = Player.BLACK;
+			}
+		}
+		else {
+			if (this.parameter.getKomi() == 2) {
+				this.goban[6][2] = Player.BLACK;
+				this.goban[2][6] = Player.BLACK;
+			}
+			else if (this.parameter.getKomi() == 3) {
+				this.goban[6][2] = Player.BLACK;
+				this.goban[2][6] = Player.BLACK;
+				this.goban[4][4] = Player.BLACK;
+			}
+			else if (this.parameter.getKomi() == 4) {
+				this.goban[6][2] = Player.BLACK;
+				this.goban[2][6] = Player.BLACK;
+				this.goban[2][2] = Player.BLACK;
+				this.goban[6][6] = Player.BLACK;
+			}
+			else if (this.parameter.getKomi() == 5) {
+				this.goban[6][2] = Player.BLACK;
+				this.goban[2][6] = Player.BLACK;
+				this.goban[2][2] = Player.BLACK;
+				this.goban[6][6] = Player.BLACK;
+				this.goban[4][4] = Player.BLACK;
+			}
+		}
+		if (this.parameter.getKomi() == 0 || this.parameter.getKomi() == 1)
+			this.turn = Player.BLACK;
+		else 
+			this.turn = Player.WHITE;
 		this.blackPrisoner = 0;
 		this.whitePrisoner = 0;
 		this.whiteSkip = 0;
 		this.blackSkip = 0;
 		this.winner = null;
 		this.blackScore = 0.;
-		this.whiteScore = 7.5;
+		if (this.parameter.getKomi() == 0)
+			this.whiteScore = 7.5;
+		else 
+			this.whiteScore = 0.;
 		this.historic = new LinkedList<Player[][]>();
 		Player[][] trace = new Player[this.parameter.getSize()][this.parameter.getSize()];
 		for (int i = 0; i < this.parameter.getSize(); i += 1) {
@@ -330,7 +446,6 @@ public class Go {
 				break;
 			}
 		}
-		System.out.println(index);
 		while (index != this.historic.size()-1)
 			this.historic.removeLast();
 	}

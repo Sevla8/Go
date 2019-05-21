@@ -67,4 +67,7 @@ class Board extends JPanel {
 	public Go getGo() {
 		return this.go;
 	}
+	public void setGo(Go go) {
+		this.go = go;
+	}
 }
