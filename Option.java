@@ -173,6 +173,9 @@ class Option extends JPanel {
 
 		this.save.addActionListener(control);
 		this.back.addActionListener(control);
+		this.size19.addMouseListener(control);
+		this.size13.addMouseListener(control);
+		this.size9.addMouseListener(control);
 	}
 
 	public JRadioButton getNoneWatch() {

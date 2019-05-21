@@ -29,7 +29,7 @@ public class Parameter {
 		return this.komi;
 	}
 	public void setKomi(int komi) {
-		this.komi = komi; System.out.println(this.komi);
+		this.komi = komi;
 	}
 	public int getCaseSize() {
 		return this.caseSize;

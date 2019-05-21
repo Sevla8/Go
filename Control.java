@@ -45,10 +45,20 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 			this.addOption();
 			if (this.goban.getBoard().getGo().getParameter().getSize() == 19)
 				this.option.getSize19().setSelected(true);
-			else if (this.goban.getBoard().getGo().getParameter().getSize() == 13)
+			else if (this.goban.getBoard().getGo().getParameter().getSize() == 13) {
 				this.option.getSize13().setSelected(true);
-			else
+				this.option.getKomi6().setEnabled(false);
+				this.option.getKomi7().setEnabled(false);
+				this.option.getKomi8().setEnabled(false);
+				this.option.getKomi9().setEnabled(false);
+			}
+			else {
 				this.option.getSize9().setSelected(true);
+				this.option.getKomi6().setEnabled(false);
+				this.option.getKomi7().setEnabled(false);
+				this.option.getKomi8().setEnabled(false);
+				this.option.getKomi9().setEnabled(false);
+			}
 			if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.NONE)
 				this.option.getNoneWatch().setSelected(true);
 			else if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE)
@@ -76,8 +86,10 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 			else 
 				this.option.getKomi9().setSelected(true);
 		}
-		else if (e.getSource() == this.menu.getStart())
+		else if (e.getSource() == this.menu.getStart()) {
+			this.goban.getBoard().setGo(new Go(this.goban.getBoard().getGo().getParameter()));
 			this.addGoban();
+		}
 
 		else if (e.getSource() == this.option.getSave()) {
 			if (this.option.getSize9().isSelected())
@@ -122,7 +134,6 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 		else if (e.getSource() == this.goban.getGiveUp())
 			this.goban.getBoard().getGo().giveUp();
 		else if (e.getSource() == this.goban.getUndo()) {
-			System.out.println("hererererre");
 			this.goban.getBoard().getGo().undo();
 			this.goban.getBoard().repaint();
 		}
@@ -143,16 +154,36 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 
 	public void mouseClicked(MouseEvent e) {
 		if (this.click == Click.LEFT) {
-			int caseSize = this.goban.getBoard().getGo().getParameter().getCaseSize();
-			int marge = this.goban.getBoard().getGo().getParameter().getMarge();
+			if (e.getSource() == this.option.getSize19()) {
+				this.option.getKomi6().setEnabled(true);
+				this.option.getKomi7().setEnabled(true);
+				this.option.getKomi8().setEnabled(true);
+				this.option.getKomi9().setEnabled(true);
+			}
+			else if (e.getSource() == this.option.getSize13()) {
+				this.option.getKomi6().setEnabled(false);
+				this.option.getKomi7().setEnabled(false);
+				this.option.getKomi8().setEnabled(false);
+				this.option.getKomi9().setEnabled(false);
+			}
+			else if (e.getSource() == this.option.getSize9()) {
+				this.option.getKomi6().setEnabled(false);
+				this.option.getKomi7().setEnabled(false);
+				this.option.getKomi8().setEnabled(false);
+				this.option.getKomi9().setEnabled(false);
+			}
+			else if (e.getSource() == this.goban.getBoard()) {
+				int caseSize = this.goban.getBoard().getGo().getParameter().getCaseSize();
+				int marge = this.goban.getBoard().getGo().getParameter().getMarge();
 
-			int x = (e.getX()-marge+caseSize/2)/caseSize;
-			int y = (e.getY()-marge+caseSize/2)/caseSize;
+				int x = (e.getX()-marge+caseSize/2)/caseSize;
+				int y = (e.getY()-marge+caseSize/2)/caseSize;
 
-			this.goban.getBoard().getGo().play(x, y);
-			this.goban.getBlackPrisoner().setText("Black Prisoners : "+this.goban.getBoard().getGo().getBlackPrisoner());
-			this.goban.getWhitePrisoner().setText("White Prisoners : "+this.goban.getBoard().getGo().getWhitePrisoner());
-			this.goban.getBoard().repaint();
+				this.goban.getBoard().getGo().play(x, y);
+				this.goban.getBlackPrisoner().setText("Black Prisoners : "+this.goban.getBoard().getGo().getBlackPrisoner());
+				this.goban.getWhitePrisoner().setText("White Prisoners : "+this.goban.getBoard().getGo().getWhitePrisoner());
+				this.goban.getBoard().repaint();
+			}
 		}
 	}
 
