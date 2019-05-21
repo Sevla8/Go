@@ -62,10 +62,10 @@ class Goban extends JPanel {
 	public JButton getRedo() {
 		return this.redo;
 	}
-	public void setBlackPrisoner(JLabel blackPrisoner) {
-		this.blackPrisoner = blackPrisoner;
+	public JLabel getBlackPrisoner() {
+		return this.blackPrisoner;
 	}
-	public void setWhitePrisoner(JLabel whitePrisoner) {
-		this.whitePrisoner = whitePrisoner;
+	public JLabel getWhitePrisoner() {
+		return this.whitePrisoner;
 	}
 }
