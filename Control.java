@@ -15,13 +15,7 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 		this.myFrame = new MyFrame();
 		this.menu = new Menu(this);
 		this.option = new Option(this);
-		Parameter parameter = null;
-		try {
-			parameter = new Parameter(19, Watch.NONE);
-		}
-		catch (SizeException sizeException) {
-			sizeException.printStackTrace();
-		}
+		Parameter parameter = new Parameter();
 		Go go = new Go(parameter);
 		this.goban = new Goban(this, go);
 		this.addMenu();
@@ -61,6 +55,26 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 				this.option.getAbsoluteWatch().setSelected(true);
 			else
 				this.option.getByoYomiWatch().setSelected(true);
+			if (this.goban.getBoard().getGo().getParameter().getKomi() == 0)
+				this.option.getKomi0().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getKomi() == 1)
+				this.option.getKomi1().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getKomi() == 2)
+				this.option.getKomi2().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getKomi() == 3)
+				this.option.getKomi3().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getKomi() == 4)
+				this.option.getKomi4().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getKomi() == 5)
+				this.option.getKomi5().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getKomi() == 6)
+				this.option.getKomi6().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getKomi() == 7)
+				this.option.getKomi7().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getKomi() == 8)
+				this.option.getKomi8().setSelected(true);
+			else 
+				this.option.getKomi9().setSelected(true);
 		}
 		else if (e.getSource() == this.menu.getStart())
 			this.addGoban();
@@ -78,6 +92,26 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 				this.goban.getBoard().getGo().getParameter().setWatch(Watch.ABSOLUTE);
 			else 
 				this.goban.getBoard().getGo().getParameter().setWatch(Watch.BYO_YOMI);
+			if (this.option.getKomi0().isSelected())
+				this.goban.getBoard().getGo().getParameter().setKomi(0);
+			else if (this.option.getKomi1().isSelected())
+				this.goban.getBoard().getGo().getParameter().setKomi(1);
+			else if (this.option.getKomi2().isSelected())
+				this.goban.getBoard().getGo().getParameter().setKomi(2);
+			else if (this.option.getKomi3().isSelected())
+				this.goban.getBoard().getGo().getParameter().setKomi(3);
+			else if (this.option.getKomi4().isSelected())
+				this.goban.getBoard().getGo().getParameter().setKomi(4);
+			else if (this.option.getKomi5().isSelected())
+				this.goban.getBoard().getGo().getParameter().setKomi(5);
+			else if (this.option.getKomi6().isSelected())
+				this.goban.getBoard().getGo().getParameter().setKomi(6);
+			else if (this.option.getKomi7().isSelected())
+				this.goban.getBoard().getGo().getParameter().setKomi(7);
+			else if (this.option.getKomi8().isSelected())
+				this.goban.getBoard().getGo().getParameter().setKomi(8);
+			else 
+				this.goban.getBoard().getGo().getParameter().setKomi(9);
 			this.addMenu();
 		}
 		else if (e.getSource() == this.option.getBack())
