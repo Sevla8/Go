@@ -1,16 +1,14 @@
 public class Parameter {
 	private int size;
-	private int caseSize = 30;
-	private int marge = 60;
+	private int komi;
 	private Watch watch;
+	private int marge = 60;
+	private int caseSize = 30;
 
-	public Parameter(int size, Watch watch) throws SizeException {
-		if (size != 9 && size != 13 && size != 19)
-			throw new SizeException();
-		else {
-			this.size = size;
-			this.watch = watch;
-		}
+	public Parameter() {
+		this.size = 19;
+		this.komi = 0;
+		this.watch = Watch.NONE;
 	}
 
 	@Override
@@ -26,6 +24,12 @@ public class Parameter {
 	}
 	public void setSize(int size) {
 		this.size = size;
+	}
+	public int getKomi() {
+		return this.komi;
+	}
+	public void setKomi(int komi) {
+		this.komi = komi; System.out.println(this.komi);
 	}
 	public int getCaseSize() {
 		return this.caseSize;

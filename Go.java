@@ -59,7 +59,6 @@ public class Go {
 				this.whiteSkip = 0;
 			this.addHistoric();
 		}
-		System.out.println(this.toString());
 	}
 
 	public void skip() {
@@ -228,6 +227,11 @@ public class Go {
 		}
 	}
 
+	public void giveUp() {
+		this.winner = this.turn.other();
+		this.gameOver = true;
+	}
+
 	public void undo() {
 		boolean equal = false;
 		int index = 0;
@@ -245,7 +249,6 @@ public class Go {
 				break;
 			}
 		}
-		System.out.println(index);
 		if (index > 0) {
 			this.goban = new Player[this.parameter.getSize()][this.parameter.getSize()];
 			for (int i = 0; i < this.parameter.getSize(); i += 1) {
@@ -259,7 +262,7 @@ public class Go {
 				}
 			}
 		}
-		this.turn = this.turn.other();
+		this.turnOver();
 	}
 
 	public void redo() {
@@ -292,7 +295,7 @@ public class Go {
 				}
 			}
 		}
-		this.turn = this.turn.other();
+		this.turnOver();
 	}
 
 	public void addHistoric() {
@@ -330,11 +333,6 @@ public class Go {
 		System.out.println(index);
 		while (index != this.historic.size()-1)
 			this.historic.removeLast();
-	}
-
-	public void giveUp() {
-		this.winner = this.turn.other();
-		this.gameOver = true;
 	}
 
 	@Override
