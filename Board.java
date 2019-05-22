@@ -11,7 +11,6 @@ class Board extends JPanel {
 		this.go = go;
 
 		this.addMouseListener(control);
-		this.addMouseMotionListener(control);
 	}
 
 	public void paintComponent(Graphics g) {
