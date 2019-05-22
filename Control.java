@@ -4,7 +4,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseMotionListener;
 
-public class Control implements MouseMotionListener, MouseListener, ActionListener {
+public class Control implements MouseListener, ActionListener {
 	private MyFrame myFrame;
 	private Menu menu;
 	private Option option;
@@ -22,17 +22,17 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 		this.myFrame.setVisible(true);
 	}
 
-	public void addMenu() {
+	private void addMenu() {
 		this.myFrame.setContentPane(this.menu);
 		this.menu.setOpaque(true);
 		this.myFrame.validate();
 	}
-	public void addOption() {
+	private void addOption() {
 		this.myFrame.setContentPane(this.option);
 		this.option.setOpaque(true);
 		this.myFrame.validate();
 	}
-	public void addGoban() {
+	private void addGoban() {
 		this.myFrame.setContentPane(this.goban);
 		this.option.setOpaque(true);
 		this.myFrame.validate();
@@ -187,8 +187,6 @@ public class Control implements MouseMotionListener, MouseListener, ActionListen
 		}
 	}
 
-	public void mouseDragged(MouseEvent e) {}
-	public void mouseMoved(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}

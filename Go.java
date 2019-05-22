@@ -9,7 +9,7 @@ public class Go {
 	private int whiteSkip;
 	private boolean gameOver;
 	private Player[][] goban;
-	private double blackScore;
+	private double blackScore;		// save prisoners in Historic
 	private double whiteScore;
 	private int blackPrisoner;
 	private int whitePrisoner;
@@ -191,158 +191,6 @@ public class Go {
 		this.turnOver();
 	}
 
-	public boolean correctMove(int x, int y) {
-		if (!inGoban(x, y))
-			return false;
-		if (this.goban[y][x] != null)
-			return false;
-		if (this.suicide(new Stone(this.turn, x, y)))
-			return false;
-		return true;
-	}
-
-	public boolean inGoban(int x, int y) {
-		if (x >= 0 && x < this.parameter.getSize() && y >= 0 && y < this.parameter.getSize())
-			return true;
-		return false;
-	}
-
-	public void turnOver() {
-		this.turn = this.turn.other();
-	}
-
-	public boolean suicide(Stone stone) {
-		ArrayList<Stone> group = this.getGroup(stone);
-		int liberty = this.getGroupLiberty(group);
-		return liberty == 0 ? true : false;
-	}
-
-	public Player getStatus(int x, int y) {
-		if (this.goban[y][x] == null)
-			return null;
-		if (this.goban[y][x] == Player.WHITE)
-			return Player.WHITE;
-		return Player.BLACK;
-	}
-
-	public void setStone(int x, int y) {
-		this.goban[y][x] = this.turn;
-	}
-
-	public int getLiberty(Stone stone) {
-		int x = stone.getX();
-		int y = stone.getY();
-		int liberty = 0;
-		if (inGoban(x-1, y))
-			liberty += this.goban[y][x-1] == null ? 1 : 0;
-		if (inGoban(x+1, y))
-			liberty += this.goban[y][x+1] == null ? 1 : 0;
-		if (inGoban(x, y-1))
-			liberty += this.goban[y-1][x] == null ? 1 : 0;
-		if (inGoban(x, y+1))
-			liberty += this.goban[y+1][x] == null ? 1 : 0;
-		return liberty;
-	}
-
-	public int getGroupLiberty(ArrayList<Stone> group) {
-		ArrayList<Stone> groupLiberty = new ArrayList<Stone>();
-		for (Stone stone : group) {
-			int x = stone.getX();
-			int y = stone.getY();
-			if (inGoban(x-1, y)) {
-				if (this.goban[y][x-1] == null && !groupLiberty.contains(new Stone(null, x-1, y)))
-					groupLiberty.add(new Stone(null, x-1, y));
-			}
-			if (inGoban(x+1, y)) {
-				if (this.goban[y][x+1] == null && !groupLiberty.contains(new Stone(null, x+1, y)))
-					groupLiberty.add(new Stone(null, x+1, y));
-			}
-			if (inGoban(x, y-1)) {
-				if (this.goban[y-1][x] == null && !groupLiberty.contains(new Stone(null, x, y-1)))
-					groupLiberty.add(new Stone(null, x, y-1));
-			}
-			if (inGoban(x, y+1)) {
-				if (this.goban[y+1][x] == null && !groupLiberty.contains(new Stone(null, x, y+1)))
-					groupLiberty.add(new Stone(null, x, y+1));
-			}
-		}
-		return groupLiberty.size();
-	}
-
-	public ArrayList<Stone> getGroup(Stone stone) {
-		ArrayList<Stone> group = new ArrayList<Stone>();
-		group.add(stone);
-		group = this.getGroupRec(group, stone.getPlayer());
-		return group;
-	}
-
-	public ArrayList<Stone> getGroupRec(ArrayList<Stone> group, Player player) {
-		int x = group.get(group.size()-1).getX();
-		int y = group.get(group.size()-1).getY();
-		if (inGoban(x-1, y)) {
-			if (this.goban[y][x-1] == player && !group.contains(new Stone(this.goban[y][x-1], x-1, y))) {
-				group.add(new Stone(this.goban[y][x-1], x-1, y));
-				getGroupRec(group, player);
-			}
-		}
-		if (inGoban(x+1, y)) {
-			if (this.goban[y][x+1] == player && !group.contains(new Stone(this.goban[y][x+1], x+1, y))) {
-				group.add(new Stone(this.goban[y][x+1], x+1, y));
-				getGroupRec(group, player);
-			}
-		}
-		if (inGoban(x, y+1)) {
-			if (this.goban[y+1][x] == player && !group.contains(new Stone(this.goban[y+1][x], x, y+1))) {
-				group.add(new Stone(this.goban[y+1][x], x, y+1));
-				getGroupRec(group, player);
-			}
-		}
-		if (inGoban(x, y-1)) {
-			if (this.goban[y-1][x] == player && !group.contains(new Stone(this.goban[y-1][x], x, y-1))) {
-				group.add(new Stone(this.goban[y-1][x], x, y-1));
-				getGroupRec(group, player);
-			}
-		}
-		return group;
-	}
-
-	public boolean groupExists(Stone stone) {
-		int x = stone.getX();
-		int y = stone.getY();
-		boolean bool = false;
-		if (inGoban(x, y+1))
-			bool |= this.goban[y+1][x] == stone.getPlayer() ? true : false;
-		if (inGoban(x, y-1))
-			bool |= this.goban[y-1][x] == stone.getPlayer() ? true : false;
-		if (inGoban(x+1, y))
-			bool |= this.goban[y][x+1] == stone.getPlayer() ? true : false;
-		if (inGoban(x-1, y))
-			bool |= this.goban[y][x-1] == stone.getPlayer() ? true : false;
-		return bool;
-	}
-
-	public void makePrisoners() {
-		for (int i = 0; i < this.parameter.getSize(); i += 1) {
-			for (int j = 0; j < this.parameter.getSize(); j += 1) {
-				if (this.goban[i][j] != null) {
-					ArrayList<Stone> group = this.getGroup(new Stone(this.goban[i][j], j, i));
-					if (this.getGroupLiberty(group) == 0)
-						this.updatePrisoners(group);
-				}	
-			}
-		}
-	}
-
-	public void updatePrisoners(ArrayList<Stone> group) {
-		for (Stone stone : group) {
-			if (stone.getPlayer() == Player.BLACK)
-				this.blackPrisoner += 1;
-			else 
-				this.whitePrisoner += 1;
-			this.goban[stone.getY()][stone.getX()] = null;
-		}
-	}
-
 	public void giveUp() {
 		this.winner = this.turn.other();
 		this.gameOver = true;
@@ -414,7 +262,163 @@ public class Go {
 		this.turnOver();
 	}
 
-	public void addHistoric() {
+	private boolean correctMove(int x, int y) {
+		if (!inGoban(x, y))
+			return false;
+		if (this.goban[y][x] != null)
+			return false;
+		if (this.suicide(new Stone(this.turn, x, y)))
+			return false;
+		return true;
+	}
+
+	private boolean inGoban(int x, int y) {
+		if (x >= 0 && x < this.parameter.getSize() && y >= 0 && y < this.parameter.getSize())
+			return true;
+		return false;
+	}
+
+	private void turnOver() {
+		this.turn = this.turn.other();
+	}
+
+	private boolean suicide(Stone stone) {
+		this.setStone(stone.getX(), stone.getY());
+		ArrayList<Stone> group = this.getGroup(stone);
+		int liberty = this.getGroupLiberty(group);
+		this.removeStone(stone.getX(), stone.getY());
+		return liberty == 0 ? true : false;
+	}
+
+	private Player getStatus(int x, int y) {
+		if (this.goban[y][x] == null)
+			return null;
+		if (this.goban[y][x] == Player.WHITE)
+			return Player.WHITE;
+		return Player.BLACK;
+	}
+
+	private void setStone(int x, int y) {
+		this.goban[y][x] = this.turn;
+	}
+
+	private void removeStone(int x, int y) {
+		this.goban[y][x] = null;
+	}
+
+	private int getLiberty(int x, int y) {
+		int liberty = 0;
+		if (inGoban(x-1, y))
+			liberty += this.goban[y][x-1] == null ? 1 : 0;
+		if (inGoban(x+1, y))
+			liberty += this.goban[y][x+1] == null ? 1 : 0;
+		if (inGoban(x, y-1))
+			liberty += this.goban[y-1][x] == null ? 1 : 0;
+		if (inGoban(x, y+1))
+			liberty += this.goban[y+1][x] == null ? 1 : 0;
+		return liberty;
+	}
+
+	private boolean groupExists(Stone stone) {
+		int x = stone.getX();
+		int y = stone.getY();
+		boolean bool = false;
+		if (inGoban(x, y+1))
+			bool |= this.goban[y+1][x] == stone.getPlayer() ? true : false;
+		if (inGoban(x, y-1))
+			bool |= this.goban[y-1][x] == stone.getPlayer() ? true : false;
+		if (inGoban(x+1, y))
+			bool |= this.goban[y][x+1] == stone.getPlayer() ? true : false;
+		if (inGoban(x-1, y))
+			bool |= this.goban[y][x-1] == stone.getPlayer() ? true : false;
+		return bool;
+	}
+
+	private ArrayList<Stone> getGroup(Stone stone) {
+		ArrayList<Stone> group = new ArrayList<Stone>();
+		group.add(stone);
+		this.getGroupRec(group);
+		return group;
+	}
+
+	private void getGroupRec(ArrayList<Stone> group) {
+		Player player = group.get(0).getPlayer();
+		int x = group.get(group.size()-1).getX();
+		int y = group.get(group.size()-1).getY();
+		if (inGoban(x-1, y)) {
+			if (this.goban[y][x-1] == player && !group.contains(new Stone(player, x-1, y))) {
+				group.add(new Stone(player, x-1, y));
+				this.getGroupRec(group);
+			}
+		}
+		if (inGoban(x+1, y)) {
+			if (this.goban[y][x+1] == player && !group.contains(new Stone(player, x+1, y))) {
+				group.add(new Stone(player, x+1, y));
+				this.getGroupRec(group);
+			}
+		}
+		if (inGoban(x, y+1)) {
+			if (this.goban[y+1][x] == player && !group.contains(new Stone(player, x, y+1))) {
+				group.add(new Stone(player, x, y+1));
+				this.getGroupRec(group);
+			}
+		}
+		if (inGoban(x, y-1)) {
+			if (this.goban[y-1][x] == player && !group.contains(new Stone(player, x, y-1))) {
+				group.add(new Stone(player, x, y-1));
+				this.getGroupRec(group);
+			}
+		}
+	}
+
+	private int getGroupLiberty(ArrayList<Stone> group) {
+		ArrayList<Stone> groupLiberty = new ArrayList<Stone>();
+		for (Stone stone : group) {
+			int x = stone.getX();
+			int y = stone.getY();
+			if (inGoban(x-1, y)) {
+				if (this.goban[y][x-1] == null && !groupLiberty.contains(new Stone(null, x-1, y)))
+					groupLiberty.add(new Stone(null, x-1, y));
+			}
+			if (inGoban(x+1, y)) {
+				if (this.goban[y][x+1] == null && !groupLiberty.contains(new Stone(null, x+1, y)))
+					groupLiberty.add(new Stone(null, x+1, y));
+			}
+			if (inGoban(x, y-1)) {
+				if (this.goban[y-1][x] == null && !groupLiberty.contains(new Stone(null, x, y-1)))
+					groupLiberty.add(new Stone(null, x, y-1));
+			}
+			if (inGoban(x, y+1)) {
+				if (this.goban[y+1][x] == null && !groupLiberty.contains(new Stone(null, x, y+1)))
+					groupLiberty.add(new Stone(null, x, y+1));
+			}
+		}
+		return groupLiberty.size();
+	}
+
+	private void makePrisoners() {
+		for (int i = 0; i < this.parameter.getSize(); i += 1) {
+			for (int j = 0; j < this.parameter.getSize(); j += 1) {
+				if (this.goban[i][j] != null) {
+					ArrayList<Stone> group = this.getGroup(new Stone(this.goban[i][j], j, i));
+					if (this.getGroupLiberty(group) == 0)
+						this.updatePrisoners(group);
+				}	
+			}
+		}
+	}
+
+	private void updatePrisoners(ArrayList<Stone> group) {
+		for (Stone stone : group) {
+			if (stone.getPlayer() == Player.BLACK)
+				this.blackPrisoner += 1;
+			else 
+				this.whitePrisoner += 1;
+			this.goban[stone.getY()][stone.getX()] = null;
+		}
+	}
+
+	private void addHistoric() {
 		Player[][] trace = new Player[this.parameter.getSize()][this.parameter.getSize()];
 		for (int i = 0; i < this.parameter.getSize(); i += 1) {
 			for (int j = 0; j < this.parameter.getSize(); j += 1) {
@@ -429,7 +433,7 @@ public class Go {
 		this.historic.add(trace);
 	}
 
-	public void cutHistoric() {
+	private void cutHistoric() {
 		boolean equal = false;
 		int index = 0;
 		for (int k = this.historic.size()-1; k >= 0 ; k -= 1) {
