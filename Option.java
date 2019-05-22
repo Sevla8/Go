@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
-class Option extends JPanel {
+public class Option extends JPanel {
 	private JRadioButton noneWatch;
 	private JRadioButton absoluteWatch;
 	private JRadioButton byoYomiWatch;
