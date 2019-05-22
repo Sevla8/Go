@@ -135,10 +135,14 @@ public class Control implements MouseListener, ActionListener {
 			this.goban.getBoard().getGo().giveUp();
 		else if (e.getSource() == this.goban.getUndo()) {
 			this.goban.getBoard().getGo().undo();
+			this.goban.getBlackPrisoner().setText("Black Prisoners : "+this.goban.getBoard().getGo().getBlackPrisoner());
+			this.goban.getWhitePrisoner().setText("White Prisoners : "+this.goban.getBoard().getGo().getWhitePrisoner());
 			this.goban.getBoard().repaint();
 		}
 		else if (e.getSource() == this.goban.getRedo()) {
 			this.goban.getBoard().getGo().redo();
+			this.goban.getBlackPrisoner().setText("Black Prisoners : "+this.goban.getBoard().getGo().getBlackPrisoner());
+			this.goban.getWhitePrisoner().setText("White Prisoners : "+this.goban.getBoard().getGo().getWhitePrisoner());
 			this.goban.getBoard().repaint();
 		}
 	}

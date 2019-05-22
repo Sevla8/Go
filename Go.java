@@ -14,7 +14,7 @@ public class Go {
 	private int blackPrisoner;
 	private int whitePrisoner;
 	private Parameter parameter;
-	private LinkedList<Player[][]> historic;
+	private LinkedList<Historic> historic;
 
 	public Go(Parameter parameter) {
 		this.parameter = parameter;
@@ -147,19 +147,9 @@ public class Go {
 			this.whiteScore = 7.5;
 		else 
 			this.whiteScore = 0.;
-		this.historic = new LinkedList<Player[][]>();
-		Player[][] trace = new Player[this.parameter.getSize()][this.parameter.getSize()];
-		for (int i = 0; i < this.parameter.getSize(); i += 1) {
-			for (int j = 0; j < this.parameter.getSize(); j += 1) {
-				if (this.goban[i][j] == Player.BLACK)
-					trace[i][j] = Player.BLACK;
-				else if (this.goban[i][j] == Player.WHITE)
-					trace[i][j] = Player.WHITE;
-				else 
-					trace[i][j] = null;
-			}
-		}
-		this.historic.add(trace);
+		Historic historic = new Historic(this.goban, this.blackPrisoner, this.whitePrisoner);
+		this.historic = new LinkedList<Historic>();
+		this.historic.add(historic);
 		this.gameOver = false;
 	}
 
@@ -203,7 +193,7 @@ public class Go {
 			equal = true;
 			for (int i = 0; i < this.parameter.getSize(); i += 1) {
 				for (int j = 0; j < this.parameter.getSize(); j += 1) {
-					if (this.historic.get(k)[i][j] != this.goban[i][j]) {
+					if (this.historic.get(k).getGoban()[i][j] != this.goban[i][j]) {
 						equal = false;
 					}
 				}
@@ -217,14 +207,16 @@ public class Go {
 			this.goban = new Player[this.parameter.getSize()][this.parameter.getSize()];
 			for (int i = 0; i < this.parameter.getSize(); i += 1) {
 				for (int j = 0; j < this.parameter.getSize(); j += 1) {
-					if (this.historic.get(index-1)[i][j] == Player.BLACK) 
+					if (this.historic.get(index-1).getGoban()[i][j] == Player.BLACK) 
 						this.goban[i][j] = Player.BLACK;
-					else if (this.historic.get(index-1)[i][j] == Player.WHITE) 
+					else if (this.historic.get(index-1).getGoban()[i][j] == Player.WHITE) 
 						this.goban[i][j] = Player.WHITE;
 					else 
 						this.goban[i][j] = null;
 				}
 			}
+			this.blackPrisoner = this.historic.get(index-1).getBlackPrisoner();
+			this.whitePrisoner = this.historic.get(index-1).getWhitePrisoner();
 		}
 		this.turnOver();
 	}
@@ -236,7 +228,7 @@ public class Go {
 			equal = true;
 			for (int i = 0; i < this.parameter.getSize(); i += 1) {
 				for (int j = 0; j < this.parameter.getSize(); j += 1) {
-					if (this.historic.get(k)[i][j] != this.goban[i][j]) {
+					if (this.historic.get(k).getGoban()[i][j] != this.goban[i][j]) {
 						equal = false;
 					}
 				}
@@ -250,14 +242,16 @@ public class Go {
 			this.goban = new Player[this.parameter.getSize()][this.parameter.getSize()];
 			for (int i = 0; i < this.parameter.getSize(); i += 1) {
 				for (int j = 0; j < this.parameter.getSize(); j += 1) {
-					if (this.historic.get(index+1)[i][j] == Player.BLACK) 
+					if (this.historic.get(index+1).getGoban()[i][j] == Player.BLACK) 
 						this.goban[i][j] = Player.BLACK;
-					else if (this.historic.get(index+1)[i][j] == Player.WHITE) 
+					else if (this.historic.get(index+1).getGoban()[i][j] == Player.WHITE) 
 						this.goban[i][j] = Player.WHITE;
 					else 
 						this.goban[i][j] = null;
 				}
 			}
+			this.blackPrisoner = this.historic.get(index+1).getBlackPrisoner();
+			this.whitePrisoner = this.historic.get(index+1).getWhitePrisoner();
 		}
 		this.turnOver();
 	}
@@ -419,18 +413,8 @@ public class Go {
 	}
 
 	private void addHistoric() {
-		Player[][] trace = new Player[this.parameter.getSize()][this.parameter.getSize()];
-		for (int i = 0; i < this.parameter.getSize(); i += 1) {
-			for (int j = 0; j < this.parameter.getSize(); j += 1) {
-				if (this.goban[i][j] == Player.BLACK)
-					trace[i][j] = Player.BLACK;
-				else if (this.goban[i][j] == Player.WHITE)
-					trace[i][j] = Player.WHITE;
-				else 
-					trace[i][j] = null;
-			}
-		}
-		this.historic.add(trace);
+		Historic historic = new Historic(this.goban, this.blackPrisoner, this.whitePrisoner);
+		this.historic.add(historic);
 	}
 
 	private void cutHistoric() {
@@ -440,7 +424,7 @@ public class Go {
 			equal = true;
 			for (int i = 0; i < this.parameter.getSize(); i += 1) {
 				for (int j = 0; j < this.parameter.getSize(); j += 1) {
-					if (this.historic.get(k)[i][j] != this.goban[i][j]) {
+					if (this.historic.get(k).getGoban()[i][j] != this.goban[i][j]) {
 						equal = false;
 					}
 				}
@@ -475,13 +459,15 @@ public class Go {
 		string += "black : "+this.blackPrisoner+"\n\t";
 		string += "white : "+this.whitePrisoner+"\n";
 		string += "historic : \n";
-		for (Player[][] tab : this.historic) {
+		for (Historic historic : this.historic) {
 			for (int i = 0; i < this.parameter.getSize(); i += 1) {
 				for (int j = 0; j < this.parameter.getSize(); j += 1) {
-					string += tab[i][j]+" ";
+					string += historic.getGoban()[i][j]+" ";
 				}
 				string += "\n";
 			}
+			string += "black prisoner : "+historic.getBlackPrisoner()+"\n";
+			string += "white prisoner : "+historic.getWhitePrisoner()+"\n";
 			string += "\n";
 		}
 		return string;
@@ -520,7 +506,7 @@ public class Go {
 	public Parameter getParameter() {
 		return this.parameter;
 	}
-	public LinkedList<Player[][]> getHistoric() {
+	public LinkedList<Historic> getHistoric() {
 		return this.historic;
 	}
 }
