@@ -10,6 +10,7 @@ public class Control implements MouseListener, ActionListener {
 	private Option option;
 	private Goban goban;
 	private Click click;
+	private GameOver gameOver;
 
 	public Control() {
 		this.myFrame = new MyFrame();
@@ -37,11 +38,19 @@ public class Control implements MouseListener, ActionListener {
 		this.option.setOpaque(true);
 		this.myFrame.validate();
 	}
+	private void addGameOver(Player player) {
+		this.gameOver = new GameOver(this, player);
+		this.myFrame.setContentPane(this.gameOver);
+		this.gameOver.setOpaque(true);
+		this.myFrame.validate();
+	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == this.menu.getQuit())
+		// menu
+		if (e.getSource() == this.menu.getQuit()) {	// menu/quit
 			this.myFrame.dispose();
-		else if (e.getSource() == this.menu.getOption()) {
+		}
+		else if (e.getSource() == this.menu.getOption()) {	// menu/option
 			this.addOption();
 			if (this.goban.getBoard().getGo().getParameter().getSize() == 19)
 				this.option.getSize19().setSelected(true);
@@ -86,12 +95,12 @@ public class Control implements MouseListener, ActionListener {
 			else 
 				this.option.getKomi9().setSelected(true);
 		}
-		else if (e.getSource() == this.menu.getStart()) {
+		else if (e.getSource() == this.menu.getStart()) {	// menu/start
 			this.goban.getBoard().setGo(new Go(this.goban.getBoard().getGo().getParameter()));
 			this.addGoban();
 		}
-
-		else if (e.getSource() == this.option.getSave()) {
+		// options
+		else if (e.getSource() == this.option.getSave()) {	// option/save
 			if (this.option.getSize9().isSelected())
 				this.goban.getBoard().getGo().getParameter().setSize(9);
 			else if (this.option.getSize13().isSelected())
@@ -126,24 +135,32 @@ public class Control implements MouseListener, ActionListener {
 				this.goban.getBoard().getGo().getParameter().setKomi(9);
 			this.addMenu();
 		}
-		else if (e.getSource() == this.option.getBack())
+		else if (e.getSource() == this.option.getBack()) {	// option/back
 			this.addMenu();
-
-		else if (e.getSource() == this.goban.getSkip())
+		}
+		// game
+		else if (e.getSource() == this.goban.getSkip()) {	// game/skip
 			this.goban.getBoard().getGo().skip();
-		else if (e.getSource() == this.goban.getGiveUp())
+		}
+		else if (e.getSource() == this.goban.getGiveUp()) {	// game/giveUp
 			this.goban.getBoard().getGo().giveUp();
-		else if (e.getSource() == this.goban.getUndo()) {
+			this.addGameOver(this.goban.getBoard().getGo().getWinner());
+		}
+		else if (e.getSource() == this.goban.getUndo()) {	// game/undo
 			this.goban.getBoard().getGo().undo();
 			this.goban.getBlackPrisoner().setText("Black Prisoners : "+this.goban.getBoard().getGo().getBlackPrisoner());
 			this.goban.getWhitePrisoner().setText("White Prisoners : "+this.goban.getBoard().getGo().getWhitePrisoner());
 			this.goban.getBoard().repaint();
 		}
-		else if (e.getSource() == this.goban.getRedo()) {
+		else if (e.getSource() == this.goban.getRedo()) {	// game/redo
 			this.goban.getBoard().getGo().redo();
 			this.goban.getBlackPrisoner().setText("Black Prisoners : "+this.goban.getBoard().getGo().getBlackPrisoner());
 			this.goban.getWhitePrisoner().setText("White Prisoners : "+this.goban.getBoard().getGo().getWhitePrisoner());
 			this.goban.getBoard().repaint();
+		}
+		// gameOver
+		else if (e.getSource() == this.gameOver.getMenu()) {
+			this.addMenu();
 		}
 	}
 
@@ -158,25 +175,27 @@ public class Control implements MouseListener, ActionListener {
 
 	public void mouseClicked(MouseEvent e) {
 		if (this.click == Click.LEFT) {
-			if (e.getSource() == this.option.getSize19()) {
+			// options
+			if (e.getSource() == this.option.getSize19()) {	// option/size19
 				this.option.getKomi6().setEnabled(true);
 				this.option.getKomi7().setEnabled(true);
 				this.option.getKomi8().setEnabled(true);
 				this.option.getKomi9().setEnabled(true);
 			}
-			else if (e.getSource() == this.option.getSize13()) {
+			else if (e.getSource() == this.option.getSize13()) {	// option/size13
 				this.option.getKomi6().setEnabled(false);
 				this.option.getKomi7().setEnabled(false);
 				this.option.getKomi8().setEnabled(false);
 				this.option.getKomi9().setEnabled(false);
 			}
-			else if (e.getSource() == this.option.getSize9()) {
+			else if (e.getSource() == this.option.getSize9()) {	// option/size9
 				this.option.getKomi6().setEnabled(false);
 				this.option.getKomi7().setEnabled(false);
 				this.option.getKomi8().setEnabled(false);
 				this.option.getKomi9().setEnabled(false);
 			}
-			else if (e.getSource() == this.goban.getBoard()) {
+			// game
+			else if (e.getSource() == this.goban.getBoard()) {	// game/board
 				int caseSize = this.goban.getBoard().getGo().getParameter().getCaseSize();
 				int marge = this.goban.getBoard().getGo().getParameter().getMarge();
 
