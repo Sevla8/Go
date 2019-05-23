@@ -13,6 +13,8 @@ public class Go {
 	private double whiteScore;
 	private int blackPrisoner;
 	private int whitePrisoner;
+	private int blackKo;
+	private int whiteKo;
 	private Parameter parameter;
 	private LinkedList<Historic> historic;
 
@@ -151,6 +153,8 @@ public class Go {
 		this.historic = new LinkedList<Historic>();
 		this.historic.add(historic);
 		this.gameOver = false;
+		this.blackKo = 0;
+		this.whiteKo = 0;
 	}
 
 	public void play(int x, int y) {
@@ -208,9 +212,9 @@ public class Go {
 				}
 				this.blackPrisoner = this.historic.get(index-1).getBlackPrisoner();
 				this.whitePrisoner = this.historic.get(index-1).getWhitePrisoner();
+				this.turnOver();
 			}
 		}
-		this.turnOver();
 	}
 
 	public void redo() {
@@ -235,9 +239,9 @@ public class Go {
 				}
 				this.blackPrisoner = this.historic.get(index+1).getBlackPrisoner();
 				this.whitePrisoner = this.historic.get(index+1).getWhitePrisoner();
+				this.turnOver();
 			}
 		}
-		this.turnOver();
 	}
 
 	private boolean correctMove(int x, int y) {
@@ -245,9 +249,157 @@ public class Go {
 			return false;
 		if (this.goban[y][x] != null)
 			return false;
+		if (this.ko(x, y))
+			return false;
 		if (this.suicide(new Stone(this.turn, x, y)))
 			return false;
 		return true;
+	}
+
+	private boolean ko(int x, int y) {
+		if (this.turn == Player.BLACK && this.blackKo == 1) {
+			this.blackKo = 0;
+			return false;
+		}
+		if (this.turn == Player.WHITE && this.whiteKo == 1) {
+			this.whiteKo = 0;
+			return false;
+		}
+		Historic historicOld = new Historic(this.goban, 0, 0);
+		System.out.println(historicOld.toString());
+		this.setStone(x, y);
+		if (!this.makePrisoners()) {
+			removeStone(x, y); System.out.println("test 1");
+			return false;
+		}
+		this.turnOver();
+		if (inGoban(x+1, y)){	System.out.println("test 2");
+			if (this.goban[y][x+1] == null) {
+				this.setStone(x+1, y);
+				this.makePrisoners();
+				Historic historicNew = new Historic(this.goban, 0, 0);
+				if (historicNew.equals(historicOld)) {
+					this.goban = new Player[this.parameter.getSize()][this.parameter.getSize()];
+					for (int i = 0; i < this.parameter.getSize(); i += 1) {
+						for (int j = 0; j < this.parameter.getSize(); j += 1) {
+							if (historicOld.getGoban()[i][j] == Player.BLACK) 
+								this.goban[i][j] = Player.BLACK;
+							else if (historicOld.getGoban()[i][j] == Player.WHITE) 
+								this.goban[i][j] = Player.WHITE;
+							else 
+								this.goban[i][j] = null;
+						}
+					}
+					this.blackPrisoner = historicOld.getBlackPrisoner();
+					this.whitePrisoner = historicOld.getWhitePrisoner();
+					this.turnOver();
+					if (this.turn == Player.BLACK)
+						this.blackKo += 1;
+					if (this.turn == Player.WHITE)
+						this.whiteKo += 1;
+					return true;
+				}
+			}
+		}
+		else if (inGoban(x-1, y)) {	System.out.println("test 2");
+			if (this.goban[y][x-1] == null) {
+				this.setStone(x-1, y);
+				this.makePrisoners();
+				Historic historicNew = new Historic(this.goban, 0, 0);
+				if (historicNew.equals(historicOld)) {
+					this.goban = new Player[this.parameter.getSize()][this.parameter.getSize()];
+					for (int i = 0; i < this.parameter.getSize(); i += 1) {
+						for (int j = 0; j < this.parameter.getSize(); j += 1) {
+							if (historicOld.getGoban()[i][j] == Player.BLACK) 
+								this.goban[i][j] = Player.BLACK;
+							else if (historicOld.getGoban()[i][j] == Player.WHITE) 
+								this.goban[i][j] = Player.WHITE;
+							else 
+								this.goban[i][j] = null;
+						}
+					}
+					this.blackPrisoner = historicOld.getBlackPrisoner();
+					this.whitePrisoner = historicOld.getWhitePrisoner();
+					this.turnOver();
+					if (this.turn == Player.BLACK)
+						this.blackKo += 1;
+					if (this.turn == Player.WHITE)
+						this.whiteKo += 1;
+					return true;
+				}
+			}
+		}
+		else if (inGoban(x, y+1)) {	System.out.println("test 2");
+			if (this.goban[y+1][x] == null) {
+				this.setStone(x, y+1);
+				this.makePrisoners();
+				Historic historicNew = new Historic(this.goban, 0, 0);
+				if (historicNew.equals(historicOld)) {
+					this.goban = new Player[this.parameter.getSize()][this.parameter.getSize()];
+					for (int i = 0; i < this.parameter.getSize(); i += 1) {
+						for (int j = 0; j < this.parameter.getSize(); j += 1) {
+							if (historicOld.getGoban()[i][j] == Player.BLACK) 
+								this.goban[i][j] = Player.BLACK;
+							else if (historicOld.getGoban()[i][j] == Player.WHITE) 
+								this.goban[i][j] = Player.WHITE;
+							else 
+								this.goban[i][j] = null;
+						}
+					}
+					this.blackPrisoner = historicOld.getBlackPrisoner();
+					this.whitePrisoner = historicOld.getWhitePrisoner();
+					this.turnOver();
+					if (this.turn == Player.BLACK)
+						this.blackKo += 1;
+					if (this.turn == Player.WHITE)
+						this.whiteKo += 1;
+					return true;
+				}
+			}
+		}
+		else if (inGoban(x, y-1)) {	System.out.println("test 2");
+			if (this.goban[y-1][x] == null) {
+				this.setStone(x, y-1);
+				this.makePrisoners();
+				Historic historicNew = new Historic(this.goban, 0, 0);
+				if (historicNew.equals(historicOld)) {
+					this.goban = new Player[this.parameter.getSize()][this.parameter.getSize()];
+					for (int i = 0; i < this.parameter.getSize(); i += 1) {
+						for (int j = 0; j < this.parameter.getSize(); j += 1) {
+							if (historicOld.getGoban()[i][j] == Player.BLACK) 
+								this.goban[i][j] = Player.BLACK;
+							else if (historicOld.getGoban()[i][j] == Player.WHITE) 
+								this.goban[i][j] = Player.WHITE;
+							else 
+								this.goban[i][j] = null;
+						}
+					}
+					this.blackPrisoner = historicOld.getBlackPrisoner();
+					this.whitePrisoner = historicOld.getWhitePrisoner();
+					this.turnOver();
+					if (this.turn == Player.BLACK)
+						this.blackKo += 1;
+					if (this.turn == Player.WHITE)
+						this.whiteKo += 1;
+					return true;
+				}
+			}
+		}
+		this.goban = new Player[this.parameter.getSize()][this.parameter.getSize()];
+		for (int i = 0; i < this.parameter.getSize(); i += 1) {
+			for (int j = 0; j < this.parameter.getSize(); j += 1) {
+				if (historicOld.getGoban()[i][j] == Player.BLACK) 
+					this.goban[i][j] = Player.BLACK;
+				else if (historicOld.getGoban()[i][j] == Player.WHITE) 
+					this.goban[i][j] = Player.WHITE;
+				else 
+					this.goban[i][j] = null;
+			}
+		}
+		this.blackPrisoner = historicOld.getBlackPrisoner();
+		this.whitePrisoner = historicOld.getWhitePrisoner();
+		this.turnOver(); System.out.println("test 5");
+		return false;
 	}
 
 	private boolean inGoban(int x, int y) {
@@ -389,6 +541,7 @@ public class Go {
 				}	
 			}
 		}
+		System.out.println(bool);
 		return bool;
 	}
 
