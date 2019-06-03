@@ -2,15 +2,22 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Graphics;
 import javax.swing.JPanel;
+import java.awt.Dimension;
 
 class Board extends JPanel {
 	private Go go;
 
 	public Board(Control control, Go go) {
-		this.setBackground(Color.ORANGE);
+		this.setBackground(new Color(222, 184, 135));
 		this.go = go;
 
+		int tmp = this.go.getParameter().getSize()*this.go.getParameter().getCaseSize()+2*this.go.getParameter().getMarge()-this.go.getParameter().getCaseSize();
+
 		this.addMouseListener(control);
+		this.setMinimumSize(new Dimension(tmp, tmp));
+		this.setPreferredSize(new Dimension(tmp, tmp));
+		this.setMaximumSize(new Dimension(tmp, tmp));
+		this.setSize(new Dimension(tmp, tmp));
 	}
 
 	public void paintComponent(Graphics g) {
