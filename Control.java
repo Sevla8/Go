@@ -96,6 +96,7 @@ public class Control implements MouseListener, ActionListener {
 				this.option.getKomi9().setSelected(true);
 		}
 		else if (e.getSource() == this.menu.getStart()) {	// menu/start
+			this.goban = new Goban(this, this.goban.getBoard().getGo());
 			this.goban.getBoard().setGo(new Go(this.goban.getBoard().getGo().getParameter()));
 			this.addGoban();
 		}

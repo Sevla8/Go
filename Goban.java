@@ -33,15 +33,38 @@ class Goban extends JPanel {
 		this.skip.addActionListener(control);
 		this.giveUp.addActionListener(control);
 
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(this.board);
-		this.add(this.watch);
-		this.add(this.blackPrisoner);
-		this.add(this.whitePrisoner);
-		this.add(this.undo);
-		this.add(this.redo);
-		this.add(this.skip);
-		this.add(this.giveUp);
+		Box box1 = Box.createVerticalBox();
+		box1.add(Box.createVerticalGlue());
+		box1.add(Box.createVerticalGlue());
+		box1.add(this.watch);
+		box1.add(Box.createVerticalGlue());
+		box1.add(this.blackPrisoner);
+		box1.add(Box.createVerticalGlue());
+		box1.add(this.whitePrisoner);
+		box1.add(Box.createVerticalGlue());
+		box1.add(this.undo);
+		box1.add(Box.createVerticalGlue());
+		box1.add(this.redo);
+		box1.add(Box.createVerticalGlue());
+		box1.add(this.skip);
+		box1.add(Box.createVerticalGlue());
+		box1.add(this.giveUp);
+		box1.add(Box.createVerticalGlue());
+		box1.add(Box.createVerticalGlue());
+
+		Box box2 = Box.createVerticalBox();
+		box2.add(Box.createVerticalGlue());
+		box2.add(this.board);
+		box2.add(Box.createVerticalGlue());
+
+		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		this.add(Box.createHorizontalGlue());
+		this.add(Box.createHorizontalGlue());
+		this.add(box2);
+		this.add(Box.createHorizontalGlue());
+		this.add(box1);
+		this.add(Box.createHorizontalGlue());
+		this.add(Box.createHorizontalGlue());
 	}
 
 	public Board getBoard() {
