@@ -197,16 +197,21 @@ public class Control implements MouseListener, ActionListener {
 			}
 			// game
 			else if (e.getSource() == this.goban.getBoard()) {	// game/board
-				int caseSize = this.goban.getBoard().getGo().getParameter().getCaseSize();
-				int marge = this.goban.getBoard().getGo().getParameter().getMarge();
+				if (!this.goban.getBoard().getGo().getGameOver()) {
+					int caseSize = this.goban.getBoard().getGo().getParameter().getCaseSize();
+					int marge = this.goban.getBoard().getGo().getParameter().getMarge();
 
-				int x = (e.getX()-marge+caseSize/2)/caseSize;
-				int y = (e.getY()-marge+caseSize/2)/caseSize;
+					int x = (e.getX()-marge+caseSize/2)/caseSize;
+					int y = (e.getY()-marge+caseSize/2)/caseSize;
 
-				this.goban.getBoard().getGo().play(x, y);
-				this.goban.getBlackPrisoner().setText("Black Prisoners : "+this.goban.getBoard().getGo().getBlackPrisoner());
-				this.goban.getWhitePrisoner().setText("White Prisoners : "+this.goban.getBoard().getGo().getWhitePrisoner());
-				this.goban.getBoard().repaint();
+					this.goban.getBoard().getGo().play(x, y);
+					this.goban.getBlackPrisoner().setText("Black Prisoners : "+this.goban.getBoard().getGo().getBlackPrisoner());
+					this.goban.getWhitePrisoner().setText("White Prisoners : "+this.goban.getBoard().getGo().getWhitePrisoner());
+					this.goban.getBoard().repaint();
+				}
+				else {
+					
+				}
 			}
 		}
 	}
