@@ -2,10 +2,13 @@ import java.util.LinkedList;
 
 public class Historic {
 	private Player[][] goban;
+	private boolean gameOver;
 	private int blackPrisoner;
 	private int whitePrisoner;
+	private boolean blackSkip;
+	private boolean whiteSkip;
 
-	public Historic(Player[][] goban, int blackPrisoner, int whitePrisoner) {
+	public Historic(Player[][] goban, int blackPrisoner, int whitePrisoner, boolean gameOver, boolean blackSkip, boolean whiteSkip) {
 		this.goban = new Player[goban.length][goban.length];
 		for (int i = 0; i < goban.length; i += 1) {
 			for (int j = 0; j < goban.length; j += 1) {
@@ -19,10 +22,13 @@ public class Historic {
 		}
 		this.blackPrisoner = blackPrisoner;
 		this.whitePrisoner = whitePrisoner;
+		this.gameOver = gameOver;
+		this.blackSkip = blackSkip;
+		this.whiteSkip = whiteSkip;
 	}
 
 	public Historic(Player[][] goban) {
-		this(goban, 0, 0);
+		this(goban, 0, 0, false, false, false);
 	}
 
 	@Override
@@ -38,6 +44,8 @@ public class Historic {
 					return false;
 			}
 		}
+		if (historic.getGameOver() || this.gameOver)
+			return false;
 		return true;
 	}
 
@@ -53,6 +61,7 @@ public class Historic {
 		}
 		string += "black prisoner : "+this.blackPrisoner+"\n";
 		string += "white prisoner : "+this.whitePrisoner+"\n";
+		string += "game over : "+this.gameOver+"\n";
 		string += "\n";
 		return string;
 	}
@@ -60,10 +69,19 @@ public class Historic {
 	public Player[][] getGoban() {
 		return this.goban;
 	}
+	public boolean getGameOver() {
+		return this.gameOver;
+	}
 	public int getBlackPrisoner() {
 		return this.blackPrisoner;
 	}
 	public int getWhitePrisoner() {
 		return this.whitePrisoner;
+	}
+	public boolean getBlackSkip() {
+		return this.blackSkip;
+	}
+	public boolean getWhiteSkip() {
+		return this.whiteSkip;
 	}
 }

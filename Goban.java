@@ -10,11 +10,16 @@ import javax.swing.BoxLayout;
 
 class Goban extends JPanel {
 	private Board board;
+	private JLabel turn;
 	private JLabel watch;
 	private JButton skip;
 	private JButton undo;
 	private JButton redo;
 	private JButton giveUp;
+	private JLabel gameOver;
+	private JLabel blackSkip;
+	private JLabel whiteSkip;
+	private JButton getWinner;
 	private JLabel blackPrisoner;
 	private JLabel whitePrisoner;
 
@@ -24,19 +29,36 @@ class Goban extends JPanel {
 		this.watch = new JLabel("time : 00:00");
 		this.blackPrisoner = new JLabel("Black Prisoners : 0");
 		this.whitePrisoner = new JLabel("White Prisoners : 0");
+		this.gameOver = new JLabel("Game : In Progress");
+		this.blackSkip = new JLabel("Black Skip : None");
+		this.whiteSkip = new JLabel("White Skip : None");
+		this.turn = new JLabel("Turn : "+this.board.getGo().getTurn());
 		this.undo = new JButton("Undo");
+		this.undo.setEnabled(false);
 		this.redo = new JButton("Redo");
+		this.redo.setEnabled(false);
 		this.skip = new JButton("Skip");
 		this.giveUp = new JButton("Give up");
+		this.getWinner = new JButton("Get Winner");
+		this.getWinner.setEnabled(false);
 		this.undo.addActionListener(control);
 		this.redo.addActionListener(control);
 		this.skip.addActionListener(control);
 		this.giveUp.addActionListener(control);
+		this.getWinner.addActionListener(control);
 
 		Box box1 = Box.createVerticalBox();
 		box1.add(Box.createVerticalGlue());
 		box1.add(Box.createVerticalGlue());
+		box1.add(this.gameOver);
+		box1.add(Box.createVerticalGlue());
 		box1.add(this.watch);
+		box1.add(Box.createVerticalGlue());
+		box1.add(this.turn);
+		box1.add(Box.createVerticalGlue());
+		box1.add(this.blackSkip);
+		box1.add(Box.createVerticalGlue());
+		box1.add(this.whiteSkip);
 		box1.add(Box.createVerticalGlue());
 		box1.add(this.blackPrisoner);
 		box1.add(Box.createVerticalGlue());
@@ -47,6 +69,8 @@ class Goban extends JPanel {
 		box1.add(this.redo);
 		box1.add(Box.createVerticalGlue());
 		box1.add(this.skip);
+		box1.add(Box.createVerticalGlue());
+		box1.add(this.getWinner);
 		box1.add(Box.createVerticalGlue());
 		box1.add(this.giveUp);
 		box1.add(Box.createVerticalGlue());
@@ -90,5 +114,20 @@ class Goban extends JPanel {
 	}
 	public JLabel getWhitePrisoner() {
 		return this.whitePrisoner;
+	}
+	public JLabel getGameOver() {
+		return this.gameOver;
+	}
+	public JLabel getBlackSkip() {
+		return this.blackSkip;
+	}
+	public JLabel getWhiteSkip() {
+		return this.whiteSkip;
+	}
+	public JLabel getTurn() {
+		return this.turn;
+	}
+	public JButton getGetWinner() {
+		return this.getWinner;
 	}
 }
