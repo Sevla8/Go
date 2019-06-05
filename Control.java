@@ -45,6 +45,38 @@ public class Control implements MouseListener, ActionListener {
 		this.myFrame.validate();
 	}
 
+	private void actualiseInformation() {
+		if (this.goban.getBoard().getGo().getGameOver()) {
+			this.goban.getInformation().getGameOver().setText("Game : Over");
+			this.goban.getInformation().getSkip().setEnabled(false);
+			this.goban.getInformation().getGetWinner().setEnabled(true);
+		}
+		else {
+			this.goban.getInformation().getGameOver().setText("Game : In Progress");
+			this.goban.getInformation().getSkip().setEnabled(true);
+			this.goban.getInformation().getGetWinner().setEnabled(false);
+		}
+		if (this.goban.getBoard().getGo().getBlackSkip())
+			this.goban.getInformation().getBlackSkip().setText("Black Skip : Skipped");
+		else 
+			this.goban.getInformation().getBlackSkip().setText("Black Skip : None");
+		if (this.goban.getBoard().getGo().getWhiteSkip())
+			this.goban.getInformation().getWhiteSkip().setText("White Skip : Skipped");
+		else 
+			this.goban.getInformation().getWhiteSkip().setText("White Skip : None");
+		this.goban.getInformation().getBlackPrisoner().setText("Black Prisoners : "+this.goban.getBoard().getGo().getBlackPrisoner());
+		this.goban.getInformation().getWhitePrisoner().setText("White Prisoners : "+this.goban.getBoard().getGo().getWhitePrisoner());
+		this.goban.getInformation().getTurn().setText("Turn : "+this.goban.getBoard().getGo().getTurn());
+		if (this.goban.getBoard().getGo().getIndex() != 0)
+			this.goban.getInformation().getUndo().setEnabled(true);
+		else 
+			this.goban.getInformation().getUndo().setEnabled(false);
+		if (this.goban.getBoard().getGo().getHistoric().size()-1 != this.goban.getBoard().getGo().getIndex())
+			this.goban.getInformation().getRedo().setEnabled(true);
+		else 
+			this.goban.getInformation().getRedo().setEnabled(false);
+	}
+
 	public void actionPerformed(ActionEvent e) {
 		// menu
 		if (e.getSource() == this.menu.getQuit()) {	// menu/quit
@@ -140,108 +172,26 @@ public class Control implements MouseListener, ActionListener {
 			this.addMenu();
 		}
 		// game
-		else if (e.getSource() == this.goban.getSkip()) {	// game/skip
+		else if (e.getSource() == this.goban.getInformation().getSkip()) {	// game/skip
 			this.goban.getBoard().getGo().skip();
-			if (this.goban.getBoard().getGo().getGameOver()) {
-				this.goban.getGameOver().setText("Game : Over");
-				this.goban.getSkip().setEnabled(false);
-				this.goban.getGetWinner().setEnabled(true);
-			}
-			else {
-				this.goban.getGameOver().setText("Game : In Progress");
-				this.goban.getSkip().setEnabled(true);
-				this.goban.getGetWinner().setEnabled(false);
-			}
-			if (this.goban.getBoard().getGo().getBlackSkip())
-				this.goban.getBlackSkip().setText("Black Skip : Skipped");
-			else 
-				this.goban.getBlackSkip().setText("Black Skip : None");
-			if (this.goban.getBoard().getGo().getWhiteSkip())
-				this.goban.getWhiteSkip().setText("White Skip : Skipped");
-			else 
-				this.goban.getWhiteSkip().setText("White Skip : None");
-			this.goban.getTurn().setText("Turn : "+this.goban.getBoard().getGo().getTurn());
-			if (this.goban.getBoard().getGo().getIndex() != 0)
-				this.goban.getUndo().setEnabled(true);
-			else 
-				this.goban.getUndo().setEnabled(false);
-			if (this.goban.getBoard().getGo().getHistoric().size()-1 != this.goban.getBoard().getGo().getIndex())
-				this.goban.getRedo().setEnabled(true);
-			else 
-				this.goban.getRedo().setEnabled(false);
+			this.actualiseInformation();
 			this.goban.getBoard().repaint();
 		}
-		else if (e.getSource() == this.goban.getGiveUp()) {	// game/giveUp
+		else if (e.getSource() == this.goban.getInformation().getGiveUp()) {	// game/giveUp
 			this.goban.getBoard().getGo().giveUp();
 			this.addGameOver(this.goban.getBoard().getGo().getWinner(), 0, 0);
 		}
-		else if (e.getSource() == this.goban.getUndo()) {	// game/undo
+		else if (e.getSource() == this.goban.getInformation().getUndo()) {	// game/undo
 			this.goban.getBoard().getGo().undo();
-			if (this.goban.getBoard().getGo().getGameOver()) {
-				this.goban.getGameOver().setText("Game : Over");
-				this.goban.getSkip().setEnabled(false);
-				this.goban.getGetWinner().setEnabled(true);
-			}
-			else {
-				this.goban.getGameOver().setText("Game : In Progress");
-				this.goban.getSkip().setEnabled(true);
-				this.goban.getGetWinner().setEnabled(false);
-			}
-			if (this.goban.getBoard().getGo().getBlackSkip())
-				this.goban.getBlackSkip().setText("Black Skip : Skipped");
-			else 
-				this.goban.getBlackSkip().setText("Black Skip : None");
-			if (this.goban.getBoard().getGo().getWhiteSkip())
-				this.goban.getWhiteSkip().setText("White Skip : Skipped");
-			else 
-				this.goban.getWhiteSkip().setText("White Skip : None");
-			this.goban.getBlackPrisoner().setText("Black Prisoners : "+this.goban.getBoard().getGo().getBlackPrisoner());
-			this.goban.getWhitePrisoner().setText("White Prisoners : "+this.goban.getBoard().getGo().getWhitePrisoner());
-			this.goban.getTurn().setText("Turn : "+this.goban.getBoard().getGo().getTurn());
-			if (this.goban.getBoard().getGo().getIndex() != 0)
-				this.goban.getUndo().setEnabled(true);
-			else 
-				this.goban.getUndo().setEnabled(false);
-			if (this.goban.getBoard().getGo().getHistoric().size()-1 != this.goban.getBoard().getGo().getIndex())
-				this.goban.getRedo().setEnabled(true);
-			else 
-				this.goban.getRedo().setEnabled(false);
+			this.actualiseInformation();
 			this.goban.getBoard().repaint();
 		}
-		else if (e.getSource() == this.goban.getRedo()) {	// game/redo
+		else if (e.getSource() == this.goban.getInformation().getRedo()) {	// game/redo
 			this.goban.getBoard().getGo().redo();
-			if (this.goban.getBoard().getGo().getGameOver()) {
-				this.goban.getGameOver().setText("Game : Over");
-				this.goban.getSkip().setEnabled(false);
-				this.goban.getGetWinner().setEnabled(true);
-			}
-			else {
-				this.goban.getGameOver().setText("Game : In Progress");
-				this.goban.getSkip().setEnabled(true);
-				this.goban.getGetWinner().setEnabled(false);
-			}
-			if (this.goban.getBoard().getGo().getBlackSkip())
-				this.goban.getBlackSkip().setText("Black Skip : Skipped");
-			else 
-				this.goban.getBlackSkip().setText("Black Skip : None");
-			if (this.goban.getBoard().getGo().getWhiteSkip())
-				this.goban.getWhiteSkip().setText("White Skip : Skipped");
-			else 
-				this.goban.getWhiteSkip().setText("White Skip : None");
-			this.goban.getBlackPrisoner().setText("Black Prisoners : "+this.goban.getBoard().getGo().getBlackPrisoner());
-			this.goban.getWhitePrisoner().setText("White Prisoners : "+this.goban.getBoard().getGo().getWhitePrisoner());
-			this.goban.getTurn().setText("Turn : "+this.goban.getBoard().getGo().getTurn());
-			if (this.goban.getBoard().getGo().getIndex() != 0)
-				this.goban.getUndo().setEnabled(true);
-			else 
-				this.goban.getUndo().setEnabled(false);
-			if (this.goban.getBoard().getGo().getHistoric().size()-1 != this.goban.getBoard().getGo().getIndex())
-				this.goban.getRedo().setEnabled(true);
-			else 
-				this.goban.getRedo().setEnabled(false);
+			this.actualiseInformation();
 			this.goban.getBoard().repaint();
 		}
-		else if (e.getSource() == this.goban.getGetWinner()) {	// makeWinner
+		else if (e.getSource() == this.goban.getInformation().getGetWinner()) {	// makeWinner
 			this.goban.getBoard().getGo().makeWinner();
 			this.addGameOver(this.goban.getBoard().getGo().getWinner(), this.goban.getBoard().getGo().getBlackScore(), this.goban.getBoard().getGo().getWhiteScore());
 		}
@@ -283,42 +233,16 @@ public class Control implements MouseListener, ActionListener {
 			}
 			// game
 			else if (e.getSource() == this.goban.getBoard()) {	// game/board
-				int caseSize = this.goban.getBoard().getGo().getParameter().getCaseSize();
-				int marge = this.goban.getBoard().getGo().getParameter().getMarge();
+				int size = this.goban.getBoard().getGo().getParameter().getSize();
+				int min = (int)this.goban.getBoard().getWidth() < (int)this.goban.getBoard().getHeight() ? (int)this.goban.getBoard().getWidth() : (int)this.goban.getBoard().getHeight();
+				int caseSize = min/(size+1);
+				int marge = caseSize;
 
 				int x = (e.getX()-marge+caseSize/2)/caseSize;
 				int y = (e.getY()-marge+caseSize/2)/caseSize;
 
 				this.goban.getBoard().getGo().control(x, y);
-				if (this.goban.getBoard().getGo().getGameOver()) {
-					this.goban.getGameOver().setText("Game : Over");
-					this.goban.getSkip().setEnabled(false);
-					this.goban.getGetWinner().setEnabled(true);
-				}
-				else {
-					this.goban.getGameOver().setText("Game : In Progress");
-					this.goban.getSkip().setEnabled(true);
-					this.goban.getGetWinner().setEnabled(false);
-				}
-				if (this.goban.getBoard().getGo().getBlackSkip())
-					this.goban.getBlackSkip().setText("Black Skip : Skipped");
-				else 
-					this.goban.getBlackSkip().setText("Black Skip : None");
-				if (this.goban.getBoard().getGo().getWhiteSkip())
-					this.goban.getWhiteSkip().setText("White Skip : Skipped");
-				else 
-					this.goban.getWhiteSkip().setText("White Skip : None");
-				this.goban.getBlackPrisoner().setText("Black Prisoners : "+this.goban.getBoard().getGo().getBlackPrisoner());
-				this.goban.getWhitePrisoner().setText("White Prisoners : "+this.goban.getBoard().getGo().getWhitePrisoner());
-				this.goban.getTurn().setText("Turn : "+this.goban.getBoard().getGo().getTurn());
-				if (this.goban.getBoard().getGo().getIndex() != 0)
-					this.goban.getUndo().setEnabled(true);
-				else 
-					this.goban.getUndo().setEnabled(false);
-				if (this.goban.getBoard().getGo().getHistoric().size()-1 != this.goban.getBoard().getGo().getIndex())
-					this.goban.getRedo().setEnabled(true);
-				else 
-					this.goban.getRedo().setEnabled(false);
+				this.actualiseInformation();
 				this.goban.getBoard().repaint();
 			}
 		}

@@ -11,29 +11,27 @@ class Board extends JPanel {
 		this.setBackground(new Color(222, 184, 135));
 		this.go = go;
 
-		int tmp = this.go.getParameter().getSize()*this.go.getParameter().getCaseSize()+2*this.go.getParameter().getMarge()-this.go.getParameter().getCaseSize();
-
 		this.addMouseListener(control);
-		this.setMinimumSize(new Dimension(tmp, tmp));
-		this.setPreferredSize(new Dimension(tmp, tmp));
-		this.setMaximumSize(new Dimension(tmp, tmp));
-		this.setSize(new Dimension(tmp, tmp));
+
+		this.setMinimumSize(Define.boardMinimumSize);
+		this.setPreferredSize(Define.boardPreferredSize);
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		int size = this.go.getParameter().getSize();
-		int caseSize = this.go.getParameter().getCaseSize();
-		int marge = this.go.getParameter().getMarge();
+		int min = (int)this.getSize().getWidth() < (int)this.getSize().getHeight() ? (int)this.getSize().getWidth() : (int)this.getSize().getHeight();
+		int caseSize = min/(size+1);
+		int marge = caseSize;
 
 		g.setColor(Color.GRAY);
-		if (this.go.getParameter().getSize() == 19) {
+		if (size == 19) {
 			for (int i = 1; i <= 5; i += 2) {
 				for (int j = 1; j <= 5; j += 2)
 					g.fillOval(3*i*caseSize-caseSize/10+marge, 3*j*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
 			}
 		}
-		else if (this.go.getParameter().getSize() == 13) {
+		else if (size == 13) {
 			for (int i = 3; i <= 9; i *= 3) {
 				for (int j = 3; j <= 9; j *= 3)
 					g.fillOval(i*caseSize-caseSize/10+marge, j*caseSize-caseSize/10+marge, caseSize/5, caseSize/5);
