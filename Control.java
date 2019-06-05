@@ -234,12 +234,14 @@ public class Control implements MouseListener, ActionListener {
 			// game
 			else if (e.getSource() == this.goban.getBoard()) {	// game/board
 				int size = this.goban.getBoard().getGo().getParameter().getSize();
-				int min = (int)this.goban.getBoard().getWidth() < (int)this.goban.getBoard().getHeight() ? (int)this.goban.getBoard().getWidth() : (int)this.goban.getBoard().getHeight();
+				int min = this.goban.getBoard().getWidth() < this.goban.getBoard().getHeight() ? this.goban.getBoard().getWidth() : this.goban.getBoard().getHeight();
 				int caseSize = min/(size+1);
 				int marge = caseSize;
+				int margeWidth = (this.goban.getBoard().getWidth()-min)/2+marge;
+				int margeHeight = (this.goban.getBoard().getHeight()-min)/2+marge;
 
-				int x = (e.getX()-marge+caseSize/2)/caseSize;
-				int y = (e.getY()-marge+caseSize/2)/caseSize;
+				int x = (e.getX()-margeWidth+caseSize/2)/caseSize;
+				int y = (e.getY()-margeHeight+caseSize/2)/caseSize;
 
 				this.goban.getBoard().getGo().control(x, y);
 				this.actualiseInformation();
