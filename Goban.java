@@ -16,11 +16,6 @@ class Goban extends JPanel {
 		this.board = new Board(control, go);
 		this.information = new Information(control, this.board.getGo().getTurn());
 
-		// Box box = Box.createVerticalBox();
-		// box.add(Box.createVerticalGlue());
-		// box.add(this.board);
-		// box.add(Box.createVerticalGlue());
-
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.add(Box.createHorizontalGlue());
 		this.add(Box.createHorizontalGlue());

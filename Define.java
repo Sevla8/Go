@@ -9,4 +9,5 @@ public class Define {
 	public static Dimension boardMinimumSize = new Dimension(250, 250);
 	public static Dimension infomationPreferredSize = new Dimension(175, 100);
 	public static Dimension informationMinimumSize = new Dimension(175, 350);
+	public static int hoshiPrct = 3;
 }
