@@ -161,29 +161,9 @@ public class Go {
 			this.deadStone(x, y);
 	}
 
-	private void play(int x, int y) {
-		if (this.correctMove(x, y) && !this.gameOver) {
-			this.cutHistoric();
-			this.setStone(x, y);
-			this.makePrisoners();
-			this.turnOver();
-			if (this.turn == Player.BLACK)
-				this.blackSkip = false;
-			else 
-				this.whiteSkip = false;
-			this.addHistoric();
-		}
-	}
-
-	private void deadStone(int x, int y) {
-		if (inGoban(x, y) && this.goban[y][x] != null) {
-			if (this.goban[y][x] == Player.BLACK)
-				this.blackPrisoner += 1;
-			else
-				this.whitePrisoner += 1;
-			this.removeStone(x, y);
-			this.addHistoric();
-		}
+	public void makeWinner() {
+		this.makeScore();
+		this.winner = this.blackScore > this.whiteScore ? Player.BLACK : Player.WHITE; 
 	}
 
 	public void skip() {
@@ -223,6 +203,55 @@ public class Go {
 		}
 	}
 
+	private void makeScore() {
+		for (int i = 0; i < this.parameter.getSize(); i += 1) {
+			for (int j = 0; j < this.parameter.getSize(); j += 1) {
+				if (this.goban[i][j] == Player.BLACK)
+					this.blackScore += 1;
+				else if (this.goban[i][j] == Player.WHITE)
+					this.whiteScore += 1;
+			}
+		}
+		ArrayList<Stone> chekedStone = new ArrayList<Stone>();
+		for (int i = 0; i < this.parameter.getSize(); i += 1) {
+			for (int j = 0; j < this.parameter.getSize(); j += 1) {
+				if (this.goban[i][j] == null && !chekedStone.contains(new Stone(null, j, i))) {
+					ArrayList<Stone> group = this.getGroup(new Stone(this.goban[i][j], j, i));
+					chekedStone.addAll(group);
+					if (this.isTerritoryOf(group) == Player.BLACK)
+						this.blackScore += group.size();
+					else if (this.isTerritoryOf(group) == Player.WHITE)
+						this.whiteScore += group.size();
+				}
+			}
+		}
+	}
+
+	private void play(int x, int y) {
+		if (this.correctMove(x, y) && !this.gameOver) {
+			this.cutHistoric();
+			this.setStone(x, y);
+			this.makePrisoners();
+			this.turnOver();
+			if (this.turn == Player.BLACK)
+				this.blackSkip = false;
+			else 
+				this.whiteSkip = false;
+			this.addHistoric();
+		}
+	}
+
+	private void deadStone(int x, int y) {
+		if (inGoban(x, y) && this.goban[y][x] != null) {
+			if (this.goban[y][x] == Player.BLACK)
+				this.blackPrisoner += 1;
+			else
+				this.whitePrisoner += 1;
+			this.removeStone(x, y);
+			this.addHistoric();
+		}
+	}
+
 	private boolean correctMove(int x, int y) {
 		if (!inGoban(x, y))
 			return false;
@@ -235,6 +264,44 @@ public class Go {
 		if (this.time3())
 			return false;
 		return true;
+	}
+
+	private Player isTerritoryOf(ArrayList<Stone> group) {
+		int nbBlack = 0;
+		int nbWhite = 0;
+		for (Stone stone : group) {
+			int x = stone.getX();
+			int y = stone.getY();
+			if (inGoban(x-1, y)) {
+				if (this.goban[y][x-1] == Player.BLACK)
+					nbBlack += 1;
+				else if (this.goban[y][x-1] == Player.WHITE)
+					nbWhite += 1;
+			}
+			if (inGoban(x+1, y)) {
+				if (this.goban[y][x+1] == Player.BLACK)
+					nbBlack += 1;
+				else if (this.goban[y][x+1] == Player.WHITE)
+					nbWhite += 1;
+			}
+			if (inGoban(x, y-1)) {
+				if (this.goban[y-1][x] == Player.BLACK)
+					nbBlack += 1;
+				else if (this.goban[y-1][x] == Player.WHITE)
+					nbWhite += 1;
+			}
+			if (inGoban(x, y+1)) {
+				if (this.goban[y+1][x] == Player.BLACK)
+					nbBlack += 1;
+				else if (this.goban[y+1][x] == Player.WHITE)
+					nbWhite += 1;
+			}
+		}
+		if (nbBlack == 0)
+			return Player.WHITE;
+		if (nbWhite == 0)
+			return Player.BLACK;
+		return null;
 	}
 
 	private boolean ko(int x, int y) {
@@ -419,15 +486,17 @@ public class Go {
 
 	private boolean makePrisoners() {
 		boolean bool = false;
+		ArrayList<Stone> chekedStone = new ArrayList<Stone>();
 		for (int i = 0; i < this.parameter.getSize(); i += 1) {
 			for (int j = 0; j < this.parameter.getSize(); j += 1) {
-				if (this.goban[i][j] == this.turn.other()) {
+				if (this.goban[i][j] == this.turn.other() && !chekedStone.contains(new Stone(this.turn.other(), j, i))) {
 					ArrayList<Stone> group = this.getGroup(new Stone(this.goban[i][j], j, i));
+					chekedStone.addAll(group);
 					if (this.getGroupLiberty(group) == 0) {
 						bool = true;
 						this.updatePrisoners(group);
 					}
-				}	
+				}
 			}
 		}
 		return bool;
@@ -519,7 +588,6 @@ public class Go {
 	public int getIndex() {
 		return this.index;
 	}
-
 	public Player getTurn() {
 		return this.turn;
 	}

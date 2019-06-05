@@ -38,8 +38,8 @@ public class Control implements MouseListener, ActionListener {
 		this.option.setOpaque(true);
 		this.myFrame.validate();
 	}
-	private void addGameOver(Player player) {
-		this.gameOver = new GameOver(this, player);
+	private void addGameOver(Player player, double blackScore, double whiteScore) {
+		this.gameOver = new GameOver(this, player, blackScore, whiteScore);
 		this.myFrame.setContentPane(this.gameOver);
 		this.gameOver.setOpaque(true);
 		this.myFrame.validate();
@@ -173,7 +173,7 @@ public class Control implements MouseListener, ActionListener {
 		}
 		else if (e.getSource() == this.goban.getGiveUp()) {	// game/giveUp
 			this.goban.getBoard().getGo().giveUp();
-			this.addGameOver(this.goban.getBoard().getGo().getWinner());
+			this.addGameOver(this.goban.getBoard().getGo().getWinner(), 0, 0);
 		}
 		else if (e.getSource() == this.goban.getUndo()) {	// game/undo
 			this.goban.getBoard().getGo().undo();
@@ -241,8 +241,9 @@ public class Control implements MouseListener, ActionListener {
 				this.goban.getRedo().setEnabled(false);
 			this.goban.getBoard().repaint();
 		}
-		else if (e.getSource() == this.goban.getGetWinner()) {	// getWinner
-			// this.goban.getBoard().getGo().makeWinner();
+		else if (e.getSource() == this.goban.getGetWinner()) {	// makeWinner
+			this.goban.getBoard().getGo().makeWinner();
+			this.addGameOver(this.goban.getBoard().getGo().getWinner(), this.goban.getBoard().getGo().getBlackScore(), this.goban.getBoard().getGo().getWhiteScore());
 		}
 		// gameOver
 		else if (e.getSource() == this.gameOver.getMenu()) {
