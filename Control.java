@@ -47,6 +47,9 @@ public class Control implements MouseListener, ActionListener {
 			this.timerDelay.start();
 			this.timerSecond.start();
 		}
+		else if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.BYO_YOMI) {
+
+		}
 		this.myFrame.validate();
 	}
 	private void addGameOver(Player player, double blackScore, double whiteScore) {
@@ -111,12 +114,72 @@ public class Control implements MouseListener, ActionListener {
 				this.option.getKomi8().setEnabled(false);
 				this.option.getKomi9().setEnabled(false);
 			}
-			if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.NONE)
+			if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.NONE) {
 				this.option.getNoneWatch().setSelected(true);
-			else if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE)
+				this.option.getDelay10().setEnabled(false);
+				this.option.getDelay20().setEnabled(false);
+				this.option.getDelay30().setEnabled(false);
+				this.option.getDelay60().setEnabled(false);
+				this.option.getDelay120().setEnabled(false);
+				this.option.getDelay180().setEnabled(false);
+				this.option.getByoYomiTotal3().setEnabled(false);
+				this.option.getByoYomiTotal5().setEnabled(false);
+				this.option.getByoYomiTotal10().setEnabled(false);
+				this.option.getByoYomiTotal15().setEnabled(false);
+				this.option.getByoYomiTotal20().setEnabled(false);
+				this.option.getByoYomiPeriod10().setEnabled(false);
+				this.option.getByoYomiPeriod20().setEnabled(false);
+				this.option.getByoYomiPeriod30().setEnabled(false);
+				this.option.getByoYomiAmount1().setEnabled(false);
+				this.option.getByoYomiAmount2().setEnabled(false);
+				this.option.getByoYomiAmount3().setEnabled(false);
+				this.option.getByoYomiAmount4().setEnabled(false);
+				this.option.getByoYomiAmount5().setEnabled(false);
+			}
+			else if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE) {
 				this.option.getAbsoluteWatch().setSelected(true);
-			else
+				this.option.getDelay10().setEnabled(true);
+				this.option.getDelay20().setEnabled(true);
+				this.option.getDelay30().setEnabled(true);
+				this.option.getDelay60().setEnabled(true);
+				this.option.getDelay120().setEnabled(true);
+				this.option.getDelay180().setEnabled(true);
+				this.option.getByoYomiTotal3().setEnabled(false);
+				this.option.getByoYomiTotal5().setEnabled(false);
+				this.option.getByoYomiTotal10().setEnabled(false);
+				this.option.getByoYomiTotal15().setEnabled(false);
+				this.option.getByoYomiTotal20().setEnabled(false);
+				this.option.getByoYomiPeriod10().setEnabled(false);
+				this.option.getByoYomiPeriod20().setEnabled(false);
+				this.option.getByoYomiPeriod30().setEnabled(false);
+				this.option.getByoYomiAmount1().setEnabled(false);
+				this.option.getByoYomiAmount2().setEnabled(false);
+				this.option.getByoYomiAmount3().setEnabled(false);
+				this.option.getByoYomiAmount4().setEnabled(false);
+				this.option.getByoYomiAmount5().setEnabled(false);
+			}
+			else {
 				this.option.getByoYomiWatch().setSelected(true);
+				this.option.getDelay10().setEnabled(false);
+				this.option.getDelay20().setEnabled(false);
+				this.option.getDelay30().setEnabled(false);
+				this.option.getDelay60().setEnabled(false);
+				this.option.getDelay120().setEnabled(false);
+				this.option.getDelay180().setEnabled(false);
+				this.option.getByoYomiTotal3().setEnabled(true);
+				this.option.getByoYomiTotal5().setEnabled(true);
+				this.option.getByoYomiTotal10().setEnabled(true);
+				this.option.getByoYomiTotal15().setEnabled(true);
+				this.option.getByoYomiTotal20().setEnabled(true);
+				this.option.getByoYomiPeriod10().setEnabled(true);
+				this.option.getByoYomiPeriod20().setEnabled(true);
+				this.option.getByoYomiPeriod30().setEnabled(true);
+				this.option.getByoYomiAmount1().setEnabled(true);
+				this.option.getByoYomiAmount2().setEnabled(true);
+				this.option.getByoYomiAmount3().setEnabled(true);
+				this.option.getByoYomiAmount4().setEnabled(true);
+				this.option.getByoYomiAmount5().setEnabled(true);
+			}
 			if (this.goban.getBoard().getGo().getParameter().getKomi() == 0)
 				this.option.getKomi0().setSelected(true);
 			else if (this.goban.getBoard().getGo().getParameter().getKomi() == 1)
@@ -137,6 +200,44 @@ public class Control implements MouseListener, ActionListener {
 				this.option.getKomi8().setSelected(true);
 			else 
 				this.option.getKomi9().setSelected(true);
+			if (this.goban.getBoard().getGo().getParameter().getDelay() == 10)
+				this.option.getDelay10().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getDelay() == 20)
+				this.option.getDelay20().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getDelay() == 30)
+				this.option.getDelay30().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getDelay() == 60)
+				this.option.getDelay60().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getDelay() == 120)
+				this.option.getDelay120().setSelected(true);
+			else
+				this.option.getDelay180().setSelected(true);
+			if (this.goban.getBoard().getGo().getParameter().getByoYomiTotal() == 3)
+				this.option.getByoYomiTotal3().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getByoYomiTotal() == 5)
+				this.option.getByoYomiTotal5().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getByoYomiTotal() == 10)
+				this.option.getByoYomiTotal10().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getByoYomiTotal() == 15)
+				this.option.getByoYomiTotal15().setSelected(true);
+			else
+				this.option.getByoYomiTotal20().setSelected(true);
+			if (this.goban.getBoard().getGo().getParameter().getByoYomiPeriod() == 10)
+				this.option.getByoYomiPeriod10().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getByoYomiPeriod() == 20)
+				this.option.getByoYomiPeriod20().setSelected(true);
+			else 
+				this.option.getByoYomiPeriod30().setSelected(true);
+			if (this.goban.getBoard().getGo().getParameter().getByoYomiAmount() == 1)
+				this.option.getByoYomiAmount1().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getByoYomiAmount() == 2)
+				this.option.getByoYomiAmount2().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getByoYomiAmount() == 3)
+				this.option.getByoYomiAmount3().setSelected(true);
+			else if (this.goban.getBoard().getGo().getParameter().getByoYomiAmount() == 4)
+				this.option.getByoYomiAmount4().setSelected(true);
+			else
+				this.option.getByoYomiAmount5().setSelected(true);
 		}
 		else if (e.getSource() == this.menu.getStart()) {	// menu/start
 			this.goban = new Goban(this, this.goban.getBoard().getGo());
@@ -177,6 +278,44 @@ public class Control implements MouseListener, ActionListener {
 				this.goban.getBoard().getGo().getParameter().setKomi(8);
 			else 
 				this.goban.getBoard().getGo().getParameter().setKomi(9);
+			if (this.option.getDelay10().isSelected())
+				this.goban.getBoard().getGo().getParameter().setDelay(10);
+			else if (this.option.getDelay20().isSelected())
+				this.goban.getBoard().getGo().getParameter().setDelay(20);
+			else if (this.option.getDelay30().isSelected())
+				this.goban.getBoard().getGo().getParameter().setDelay(30);
+			else if (this.option.getDelay60().isSelected())
+				this.goban.getBoard().getGo().getParameter().setDelay(60);
+			else if (this.option.getDelay120().isSelected())
+				this.goban.getBoard().getGo().getParameter().setDelay(120);
+			else 
+				this.goban.getBoard().getGo().getParameter().setDelay(180);
+			if (this.option.getByoYomiTotal3().isSelected())
+				this.goban.getBoard().getGo().getParameter().setByoYomiTotal(3);
+			else if (this.option.getByoYomiTotal5().isSelected())
+				this.goban.getBoard().getGo().getParameter().setByoYomiTotal(5);
+			else if (this.option.getByoYomiTotal10().isSelected())
+				this.goban.getBoard().getGo().getParameter().setByoYomiTotal(10);
+			else if (this.option.getByoYomiTotal15().isSelected())
+				this.goban.getBoard().getGo().getParameter().setByoYomiTotal(15);
+			else
+				this.goban.getBoard().getGo().getParameter().setByoYomiTotal(20);
+			if (this.option.getByoYomiPeriod10().isSelected())
+				this.goban.getBoard().getGo().getParameter().setByoYomiPeriod(10);
+			else if (this.option.getByoYomiPeriod20().isSelected())
+				this.goban.getBoard().getGo().getParameter().setByoYomiPeriod(20);
+			else
+				this.goban.getBoard().getGo().getParameter().setByoYomiPeriod(30);
+			if (this.option.getByoYomiAmount1().isSelected())
+				this.goban.getBoard().getGo().getParameter().setByoYomiAmount(1);
+			else if (this.option.getByoYomiAmount2().isSelected())
+				this.goban.getBoard().getGo().getParameter().setByoYomiAmount(2);
+			else if (this.option.getByoYomiAmount3().isSelected())
+				this.goban.getBoard().getGo().getParameter().setByoYomiAmount(3);
+			else if (this.option.getByoYomiAmount4().isSelected())
+				this.goban.getBoard().getGo().getParameter().setByoYomiAmount(4);
+			else
+				this.goban.getBoard().getGo().getParameter().setByoYomiAmount(5);	
 			this.addMenu();
 		}
 		else if (e.getSource() == this.option.getBack()) {	// option/back
@@ -249,6 +388,69 @@ public class Control implements MouseListener, ActionListener {
 				this.option.getKomi7().setEnabled(false);
 				this.option.getKomi8().setEnabled(false);
 				this.option.getKomi9().setEnabled(false);
+			}
+			else if (e.getSource() == this.option.getNoneWatch()) {	// option/noneWatch
+				this.option.getDelay10().setEnabled(false);
+				this.option.getDelay20().setEnabled(false);
+				this.option.getDelay30().setEnabled(false);
+				this.option.getDelay60().setEnabled(false);
+				this.option.getDelay120().setEnabled(false);
+				this.option.getDelay180().setEnabled(false);
+				this.option.getByoYomiTotal3().setEnabled(false);
+				this.option.getByoYomiTotal5().setEnabled(false);
+				this.option.getByoYomiTotal10().setEnabled(false);
+				this.option.getByoYomiTotal15().setEnabled(false);
+				this.option.getByoYomiTotal20().setEnabled(false);
+				this.option.getByoYomiPeriod10().setEnabled(false);
+				this.option.getByoYomiPeriod20().setEnabled(false);
+				this.option.getByoYomiPeriod30().setEnabled(false);
+				this.option.getByoYomiAmount1().setEnabled(false);
+				this.option.getByoYomiAmount2().setEnabled(false);
+				this.option.getByoYomiAmount3().setEnabled(false);
+				this.option.getByoYomiAmount4().setEnabled(false);
+				this.option.getByoYomiAmount5().setEnabled(false);
+			}
+			else if (e.getSource() == this.option.getAbsoluteWatch()) {	// option/absoluteWatch
+				this.option.getDelay10().setEnabled(true);
+				this.option.getDelay20().setEnabled(true);
+				this.option.getDelay30().setEnabled(true);
+				this.option.getDelay60().setEnabled(true);
+				this.option.getDelay120().setEnabled(true);
+				this.option.getDelay180().setEnabled(true);
+				this.option.getByoYomiTotal3().setEnabled(false);
+				this.option.getByoYomiTotal5().setEnabled(false);
+				this.option.getByoYomiTotal10().setEnabled(false);
+				this.option.getByoYomiTotal15().setEnabled(false);
+				this.option.getByoYomiTotal20().setEnabled(false);
+				this.option.getByoYomiPeriod10().setEnabled(false);
+				this.option.getByoYomiPeriod20().setEnabled(false);
+				this.option.getByoYomiPeriod30().setEnabled(false);
+				this.option.getByoYomiAmount1().setEnabled(false);
+				this.option.getByoYomiAmount2().setEnabled(false);
+				this.option.getByoYomiAmount3().setEnabled(false);
+				this.option.getByoYomiAmount4().setEnabled(false);
+				this.option.getByoYomiAmount5().setEnabled(false);
+			}
+			else if (e.getSource() == this.option.getByoYomiWatch()) {	// option/byoYomiWatch
+				this.option.getDelay10().setEnabled(false);
+				this.option.getDelay20().setEnabled(false);
+				this.option.getDelay30().setEnabled(false);
+				this.option.getDelay60().setEnabled(false);
+				this.option.getDelay120().setEnabled(false);
+				this.option.getDelay180().setEnabled(false);
+				this.option.getByoYomiTotal3().setEnabled(true);
+				this.option.getByoYomiTotal5().setEnabled(true);
+				this.option.getByoYomiTotal10().setEnabled(true);
+				this.option.getByoYomiTotal15().setEnabled(true);
+				this.option.getByoYomiTotal20().setEnabled(true);
+				this.option.getByoYomiPeriod10().setEnabled(true);
+				this.option.getByoYomiPeriod20().setEnabled(true);
+				this.option.getByoYomiPeriod30().setEnabled(true);
+				this.option.getByoYomiAmount1().setEnabled(true);
+				this.option.getByoYomiAmount2().setEnabled(true);
+				this.option.getByoYomiAmount3().setEnabled(true);
+				this.option.getByoYomiAmount4().setEnabled(true);
+				this.option.getByoYomiAmount5().setEnabled(true);
 			}
 			// game
 			else if (e.getSource() == this.goban.getBoard()) {	// game/board
