@@ -8,7 +8,7 @@ public class Parameter {
 		this.size = 19;
 		this.komi = 0;
 		this.watch = Watch.NONE;
-		this.delay = 30;
+		this.delay = 10000;
 	}
 
 	@Override

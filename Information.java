@@ -19,13 +19,13 @@ public class Information extends JPanel {
 	private JLabel blackPrisoner;
 	private JLabel whitePrisoner;
 
-	public Information(Control control, Player turn) {
+	public Information(Control control, Player turn, int delay) {
 		this.setBackground(Color.LIGHT_GRAY);
 		this.setMinimumSize(Define.informationMinimumSize);
 		this.setPreferredSize(Define.infomationPreferredSize);
 
 		this.turn = new JLabel("Turn : "+turn);
-		this.watch = new JLabel("time : 00:00");
+		this.watch = new JLabel("Time : 00:00");
 		this.blackPrisoner = new JLabel("Black Prisoners : 0");
 		this.whitePrisoner = new JLabel("White Prisoners : 0");
 		this.gameOver = new JLabel("Game : In Progress");
@@ -77,6 +77,9 @@ public class Information extends JPanel {
 
 	public void setWatch(JLabel watch) {
 		this.watch = watch;
+	}
+	public JLabel getWatch() {
+		return this.watch;
 	}
 	public JButton getSkip() {
 		return this.skip;
