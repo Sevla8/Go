@@ -1,3 +1,4 @@
+import javax.swing.Timer;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseListener;
@@ -11,6 +12,8 @@ public class Control implements MouseListener, ActionListener {
 	private Goban goban;
 	private Click click;
 	private GameOver gameOver;
+	private Timer timerDelay;
+	private Timer timerSecond;
 
 	public Control() {
 		this.myFrame = new MyFrame();
@@ -36,6 +39,14 @@ public class Control implements MouseListener, ActionListener {
 	private void addGoban() {
 		this.myFrame.setContentPane(this.goban);
 		this.option.setOpaque(true);
+		if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE) {
+			this.timerDelay = new Timer(this.goban.getBoard().getGo().getParameter().getDelay(), this);
+			this.timerDelay.setRepeats(true);
+			this.timerSecond = new Timer(1000, this);
+			this.timerSecond.setRepeats(true);
+			this.timerDelay.start();
+			this.timerSecond.start();
+		}
 		this.myFrame.validate();
 	}
 	private void addGameOver(Player player, double blackScore, double whiteScore) {
@@ -194,6 +205,14 @@ public class Control implements MouseListener, ActionListener {
 		else if (e.getSource() == this.goban.getInformation().getGetWinner()) {	// makeWinner
 			this.goban.getBoard().getGo().makeWinner();
 			this.addGameOver(this.goban.getBoard().getGo().getWinner(), this.goban.getBoard().getGo().getBlackScore(), this.goban.getBoard().getGo().getWhiteScore());
+		}
+		else if (e.getSource() == this.timerDelay && this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE) {
+			this.goban.getBoard().getGo().giveUp();
+			this.addGameOver(this.goban.getBoard().getGo().getWinner(), 0, 0);
+		}
+		else if (e.getSource() == this.timerSecond && this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE) {
+			this.goban.getInformation().getWatch().setText("Time : 00:"+this.timerDelay.getDelay()/1000);
+			this.timerSecond.restart();
 		}
 		// gameOver
 		else if (e.getSource() == this.gameOver.getMenu()) {
