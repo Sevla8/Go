@@ -14,6 +14,8 @@ public class Control implements MouseListener, ActionListener {
 	private GameOver gameOver;
 	private Timer timerDelay;
 	private Timer timerSecond;
+	private int minute;
+	private int second;
 
 	public Control() {
 		this.myFrame = new MyFrame();
@@ -40,10 +42,12 @@ public class Control implements MouseListener, ActionListener {
 		this.myFrame.setContentPane(this.goban);
 		this.option.setOpaque(true);
 		if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE) {
-			this.timerDelay = new Timer(this.goban.getBoard().getGo().getParameter().getDelay(), this);
+			this.timerDelay = new Timer(this.goban.getBoard().getGo().getParameter().getDelay()*1000, this);
 			this.timerDelay.setRepeats(true);
 			this.timerSecond = new Timer(1000, this);
 			this.timerSecond.setRepeats(true);
+			this.minute = this.goban.getBoard().getGo().getParameter().getDelay()/60;
+			this.second = this.goban.getBoard().getGo().getParameter().getDelay()%60-1;
 			this.timerDelay.start();
 			this.timerSecond.start();
 		}
@@ -347,11 +351,17 @@ public class Control implements MouseListener, ActionListener {
 		}
 		else if (e.getSource() == this.timerDelay && this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE) {
 			this.goban.getBoard().getGo().giveUp();
+			this.timerSecond.stop();
+			this.timerDelay.stop();
 			this.addGameOver(this.goban.getBoard().getGo().getWinner(), 0, 0);
 		}
 		else if (e.getSource() == this.timerSecond && this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE) {
-			this.goban.getInformation().getWatch().setText("Time : 00:"+this.timerDelay.getDelay()/1000);
-			this.timerSecond.restart();
+			if (second == -1) {
+				this.second = 59;
+				this.minute -= 1;
+			}
+			this.goban.getInformation().getWatch().setText("Time : "+this.minute+":"+this.second);
+			this.second -= 1;
 		}
 		// gameOver
 		else if (e.getSource() == this.gameOver.getMenu()) {
@@ -465,8 +475,15 @@ public class Control implements MouseListener, ActionListener {
 				int y = (e.getY()-margeHeight+caseSize/2)/caseSize;
 
 				this.goban.getBoard().getGo().control(x, y);
+
+				this.minute = this.goban.getBoard().getGo().getParameter().getDelay()/60;
+				this.second = this.goban.getBoard().getGo().getParameter().getDelay()%60-1;
+
 				this.actualiseInformation();
 				this.goban.getBoard().repaint();
+
+				this.timerDelay.restart();
+				this.timerSecond.restart();
 			}
 		}
 	}
