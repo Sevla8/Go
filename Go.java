@@ -261,8 +261,9 @@ public class Go {
 			return false;
 		if (this.suicide(new Stone(this.turn, x, y)))
 			return false;
-		if (this.time3())
+		if (this.time3(x, y)) {
 			return false;
+		}
 		return true;
 	}
 
@@ -329,18 +330,32 @@ public class Go {
 		return false;
 	}
 
-	private boolean time3() {
+	private boolean time3(int x, int y) {
 		if (this.index > 3) {
-			Historic current = new Historic(this.goban);
+			boolean bool = false;
+			Player[][] tmpGoban = this.cloneGoban();
+			int tmpBlackPrisoner = this.blackPrisoner;
+			int tmpWhitePrisoner = this.whitePrisoner;
+			boolean tmpGameOver = this.gameOver;
+			boolean tmpBlackSkip = this.blackSkip;
+			boolean tmpWhiteSkip = this.whiteSkip;
+			this.setStone(x, y);
+			this.makePrisoners();
+			Historic current = new Historic(this.goban, this.blackPrisoner, this.whitePrisoner, this.gameOver, this.blackSkip, this.whiteSkip);
 			int time = 0;
-			for (Historic historic : this.historic) {
-				if (historic.equals(current))
+			for (int i = 0; i < this.index; i += 1) {
+				if (historic.get(i).equals(current))
 					time += 1;
 			}
-			if (time == 3) {
-				this.gameOver = true;
-				return true;
-			}
+			if (time == 2)
+				bool = true;
+			this.goban = tmpGoban;
+			this.blackPrisoner = tmpBlackPrisoner;
+			this.whitePrisoner = tmpWhitePrisoner;
+			this.gameOver = tmpGameOver;
+			this.blackSkip = tmpBlackSkip;
+			this.whiteSkip = tmpWhiteSkip;
+			return bool;
 		}
 		return false;
 	}

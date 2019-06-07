@@ -476,14 +476,18 @@ public class Control implements MouseListener, ActionListener {
 
 				this.goban.getBoard().getGo().control(x, y);
 
-				this.minute = this.goban.getBoard().getGo().getParameter().getDelay()/60;
-				this.second = this.goban.getBoard().getGo().getParameter().getDelay()%60-1;
+				if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE) {
+					this.minute = this.goban.getBoard().getGo().getParameter().getDelay()/60;
+					this.second = this.goban.getBoard().getGo().getParameter().getDelay()%60-1;
+				}
 
 				this.actualiseInformation();
 				this.goban.getBoard().repaint();
 
-				this.timerDelay.restart();
-				this.timerSecond.restart();
+				if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE) {
+					this.timerDelay.restart();
+					this.timerSecond.restart();
+				}
 			}
 		}
 	}
