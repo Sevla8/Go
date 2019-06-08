@@ -5,7 +5,11 @@
 JAVA Application to play Go
 
 ## Authors
-- Sevla (dasilvaalvesb@gmail.com)
+- Sevla (brandon.da-silva-alves@etu.u-pec.fr)
+
+## To Run It
+-> javac ./\*.java
+-> java Main
 
 ## Dates
 
@@ -16,14 +20,14 @@ JAVA Application to play Go
 
 - Board : board game view
 - Click : click enumeration
-- Control : Listener
+- Control : listener
 - Define : some constants
 - GameOver : game over view
 - Go : game rules
 - Goban : board game + data game view
 - Historic : capture of a turn
 - Information : data game view
-- Main : main
+- Main : program starting gate
 - Menu : menu view
 - MyFrame : frame
 - Option : option view
