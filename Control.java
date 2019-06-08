@@ -16,12 +16,18 @@ public class Control implements MouseListener, ActionListener {
 	private Timer timerTotalBlack;
 	private Timer timerPeriodBlack;
 	private int periodAmounBlack;
+	private boolean lackOfTimeBlack;
 	private Timer timerTotalWhite;
 	private Timer timerPeriodWhite;
 	private int periodAmounWhite;
+	private boolean lackOfTimeWhite;
 	private Timer timerSecond;
 	private int minute;
 	private int second;
+	private int minuteTotalBlack;
+	private int secondTotalBlack;
+	private int minuteTotalWhite;
+	private int secondTotalWhite;
 
 	public Control() {
 		this.myFrame = new MyFrame();
@@ -53,21 +59,35 @@ public class Control implements MouseListener, ActionListener {
 			this.timerSecond = new Timer(1000, this);
 			this.timerSecond.setRepeats(true);
 			this.minute = this.goban.getBoard().getGo().getParameter().getDelay()/60;
-			this.second = this.goban.getBoard().getGo().getParameter().getDelay()%60-1;
+			this.second = this.goban.getBoard().getGo().getParameter().getDelay()%60;
 			this.timerDelay.start();
 			this.timerSecond.start();
 		}
 		else if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.BYO_YOMI) {
-			this.timerDelay = new Timer(this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()*1000, this);
-			this.timerDelay.setRepeats(true);
+			this.timerTotalBlack = new Timer(this.goban.getBoard().getGo().getParameter().getByoYomiTotal()*1000*60, this);
+			this.timerTotalBlack.setRepeats(false);
+			this.timerPeriodBlack = new Timer(this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()*1000, this);
+			this.timerPeriodBlack.setRepeats(true);
+			this.periodAmounBlack = this.goban.getBoard().getGo().getParameter().getByoYomiAmount();
+			this.lackOfTimeBlack = false;
+			this.minuteTotalBlack = this.goban.getBoard().getGo().getParameter().getByoYomiTotal();
+			this.secondTotalBlack = 0;
+			this.timerTotalWhite = new Timer(this.goban.getBoard().getGo().getParameter().getByoYomiTotal()*1000*60, this);
+			this.timerTotalWhite.setRepeats(false);
+			this.timerPeriodWhite = new Timer(this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()*1000, this);
+			this.timerPeriodWhite.setRepeats(true);
+			this.periodAmounWhite = this.goban.getBoard().getGo().getParameter().getByoYomiAmount();
+			this.lackOfTimeWhite = false;
+			this.minuteTotalWhite = this.goban.getBoard().getGo().getParameter().getByoYomiTotal();
+			this.secondTotalWhite = 0;
 			this.timerSecond = new Timer(1000, this);
 			this.timerSecond.setRepeats(true);
-			this.timerTotal = new Timer(this.goban.getBoard().getGo().getParameter().getByoYomiTotal()*1000*60, this);
-			this.timerTotal.setRepeats(true);
-			this.minute = this.goban.getBoard().getGo().getParameter().getByoYomiTotal();
-			this.second = 0;
-			this.amountPeriod = this.goban.getBoard().getGo().getParameter().getByoYomiAmount();
-			this.timerTotal.start();
+			this.minute = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()/60;
+			this.second = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()%60;
+			if (this.goban.getBoard().getGo().getTurn() == Player.BLACK)
+				this.timerTotalBlack.start();
+			else 
+				this.timerTotalWhite.start();
 			this.timerSecond.start();
 		}
 		this.myFrame.validate();
@@ -371,29 +391,89 @@ public class Control implements MouseListener, ActionListener {
 			this.timerDelay.stop();
 			this.addGameOver(this.goban.getBoard().getGo().getWinner(), 0, 0);
 		}
-		else if (e.getSource() == this.timerSecond && this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE ||
-			e.getSource() == this.timerSecond && this.goban.getBoard().getGo().getParameter().getWatch() == Watch.BYO_YOMI) {
-			if (second == -1) {
+		else if (e.getSource() == this.timerSecond && this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE) {
+			this.second -= 1;
+			if (this.second == -1) {
 				this.second = 59;
 				this.minute -= 1;
 			}
 			this.goban.getInformation().getWatch().setText("Time : "+this.minute+":"+this.second);
-			this.second -= 1;
 		}
-		else if (e.getSource() == this.timerTotal && this.goban.getBoard().getGo().getParameter().getWatch() == Watch.BYO_YOMI) {
-			this.timerTotal.stop();
+		else if (e.getSource() == this.timerTotalBlack && this.goban.getBoard().getGo().getParameter().getWatch() == Watch.BYO_YOMI) {
+			this.lackOfTimeBlack = true;
 			this.minute = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()/60;
-			this.second = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()%60-1;
-			this.timerDelay.start();
+			this.second = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()%60;
+			this.goban.getInformation().getWatch().setText("Time : "+this.minute+":"+this.second);
+			this.timerPeriodBlack.start();
 		}
-		else if (e.getSource() == this.timerDelay && this.goban.getBoard().getGo().getParameter().getWatch() == Watch.BYO_YOMI) {
-			this.amountPeriod -= 1;
-			if (this.amountPeriod == 0) {
+		else if (e.getSource() == this.timerTotalWhite && this.goban.getBoard().getGo().getParameter().getWatch() == Watch.BYO_YOMI) {
+			this.lackOfTimeWhite = true;
+			this.minute = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()/60;
+			this.second = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()%60;
+			this.goban.getInformation().getWatch().setText("Time : "+this.minute+":"+this.second);
+			this.timerPeriodWhite.start();
+		}
+		else if (e.getSource() == this.timerPeriodBlack && this.goban.getBoard().getGo().getParameter().getWatch() == Watch.BYO_YOMI) {
+			this.periodAmounBlack -= 1;
+			if (this.periodAmounBlack == 0) {
+				this.timerPeriodBlack.stop();
 				this.goban.getBoard().getGo().giveUp();
 				this.addGameOver(this.goban.getBoard().getGo().getWinner(), 0, 0);
 			}
-			this.minute = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()/60;
-			this.second = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()%60-1;
+			else {
+				this.minute = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()/60;
+				this.second = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()%60;
+			}
+		}
+		else if (e.getSource() == this.timerPeriodWhite && this.goban.getBoard().getGo().getParameter().getWatch() == Watch.BYO_YOMI) {
+			this.periodAmounWhite -= 1;
+			if (this.periodAmounWhite == 0) {
+				this.timerPeriodWhite.stop();
+				this.goban.getBoard().getGo().giveUp();
+				this.addGameOver(this.goban.getBoard().getGo().getWinner(), 0, 0);
+			}
+			else {
+				this.minute = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()/60;
+				this.second = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()%60;
+			}
+		}
+		else if (e.getSource() == this.timerSecond && this.goban.getBoard().getGo().getParameter().getWatch() == Watch.BYO_YOMI) {
+			if (this.goban.getBoard().getGo().getTurn() == Player.BLACK) {
+				if (!this.lackOfTimeBlack) {
+					this.secondTotalBlack -= 1;
+					if (this.secondTotalBlack == -1) {
+						this.secondTotalBlack = 59;
+						this.minuteTotalBlack -= 1;
+					}
+					this.goban.getInformation().getWatch().setText("Time : "+this.minuteTotalBlack+":"+this.secondTotalBlack);
+				}
+				else {
+					this.second -= 1;
+					if (this.second == -1) {
+						this.second = 59;
+						this.minute -= 1;
+					}
+					this.goban.getInformation().getWatch().setText("Time : "+this.minute+":"+this.second+" Byo-Yomi : "+this.periodAmounBlack);
+				}
+			}
+			else {
+				if (!this.lackOfTimeWhite) {
+					this.secondTotalWhite -= 1;
+					if (this.secondTotalWhite == -1) {
+						this.secondTotalWhite = 59;
+						this.minuteTotalWhite -= 1;
+					}
+					this.goban.getInformation().getWatch().setText("Time : "+this.minuteTotalWhite+":"+this.secondTotalWhite);
+				}
+				else {
+					this.second -= 1;
+					if (this.second == -1) {
+						this.second = 59;
+						this.minute -= 1;
+					}
+					this.goban.getInformation().getWatch().setText("Time : "+this.minute+":"+this.second+" Byo-Yomi : "+this.periodAmounWhite);
+				}
+			}
 		}
 		// gameOver
 		else if (e.getSource() == this.gameOver.getMenu()) {
@@ -510,11 +590,21 @@ public class Control implements MouseListener, ActionListener {
 
 				if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.ABSOLUTE) {
 					this.minute = this.goban.getBoard().getGo().getParameter().getDelay()/60;
-					this.second = this.goban.getBoard().getGo().getParameter().getDelay()%60-1;
+					this.second = this.goban.getBoard().getGo().getParameter().getDelay()%60;
+					this.goban.getInformation().getWatch().setText("Time : "+this.minute+":"+this.second);
 				}
-				else if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.BYO_YOMI && this.timerDelay.isRunning()) {
-					this.minute = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()/60;
-					this.second = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()%60-1;
+				else if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.BYO_YOMI) {
+					if (this.timerPeriodBlack.isRunning() || this.timerPeriodWhite.isRunning()) {
+						this.minute = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()/60;
+						this.second = this.goban.getBoard().getGo().getParameter().getByoYomiPeriod()%60;
+						this.goban.getInformation().getWatch().setText("Time : "+this.minute+":"+this.second);
+					}
+					else {
+						if (this.timerTotalBlack.isRunning())
+							this.goban.getInformation().getWatch().setText("Time : "+this.minuteTotalWhite+":"+this.secondTotalWhite);
+						else 
+							this.goban.getInformation().getWatch().setText("Time : "+this.minuteTotalBlack+":"+this.secondTotalBlack);
+					}
 				}
 
 				this.actualiseInformation();
@@ -524,8 +614,47 @@ public class Control implements MouseListener, ActionListener {
 					this.timerDelay.restart();
 					this.timerSecond.restart();
 				}
-				else if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.BYO_YOMI && this.timerDelay.isRunning()) {
-					this.timerDelay.restart();
+				else if (this.goban.getBoard().getGo().getParameter().getWatch() == Watch.BYO_YOMI) {
+					if (this.timerTotalBlack.isRunning()) {
+						this.timerTotalBlack.stop();
+						if (this.lackOfTimeWhite)
+							this.timerPeriodWhite.restart();
+						else {
+							this.timerTotalWhite = new Timer((this.minuteTotalWhite*60+this.secondTotalWhite)*1000, this);
+							this.timerTotalWhite.setRepeats(false);
+							this.timerTotalWhite.start();
+						}
+					}
+					else if (this.timerTotalWhite.isRunning()) {
+						this.timerTotalWhite.stop();
+						if (this.lackOfTimeBlack)
+							this.timerPeriodBlack.restart();
+						else {
+							this.timerTotalBlack = new Timer((this.minuteTotalBlack*60+this.secondTotalBlack)*1000, this);
+							this.timerTotalBlack.setRepeats(false);
+							this.timerTotalBlack.start();
+						}
+					}
+					else if (this.timerPeriodBlack.isRunning()) {
+						this.timerPeriodBlack.stop();
+						if (this.lackOfTimeWhite)
+							this.timerPeriodWhite.restart();
+						else {
+							this.timerTotalWhite = new Timer((this.minuteTotalWhite*60+this.secondTotalWhite)*1000, this);
+							this.timerTotalWhite.setRepeats(false);
+							this.timerTotalWhite.start();
+						}
+					}
+					else if (this.timerPeriodWhite.isRunning()) {
+						this.timerPeriodWhite.stop();
+						if (this.lackOfTimeBlack)
+							this.timerPeriodBlack.restart();
+						else {
+							this.timerTotalBlack = new Timer((this.minuteTotalBlack*60+this.secondTotalBlack)*1000, this);
+							this.timerTotalBlack.setRepeats(false);
+							this.timerTotalBlack.start();
+						}
+					}
 					this.timerSecond.restart();
 				}
 			}
@@ -535,8 +664,4 @@ public class Control implements MouseListener, ActionListener {
 	public void mouseExited(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
-
-	public MyFrame getMyFrame() {
-		return this.myFrame;
-	}
 }

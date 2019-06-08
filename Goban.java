@@ -11,7 +11,12 @@ class Goban extends JPanel {
 		this.setBackground(Color.BLACK);
 
 		this.board = new Board(control, go);
-		this.information = new Information(control, this.board.getGo().getTurn(), this.board.getGo().getParameter().getDelay());
+		if (this.board.getGo().getParameter().getWatch() == Watch.NONE)
+			this.information = new Information(control, this.board.getGo().getTurn());
+		else if (this.board.getGo().getParameter().getWatch() == Watch.ABSOLUTE)
+			this.information = new Information(control, this.board.getGo().getTurn(), this.board.getGo().getParameter().getDelay());
+		else 
+			this.information = new Information(control, this.board.getGo().getTurn(), this.board.getGo().getParameter().getByoYomiTotal(), false);
 
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.add(Box.createHorizontalGlue());

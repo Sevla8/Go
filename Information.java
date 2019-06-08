@@ -19,7 +19,7 @@ public class Information extends JPanel {
 	private JLabel blackPrisoner;
 	private JLabel whitePrisoner;
 
-	public Information(Control control, Player turn, int delay) {
+	public Information(Control control, Player turn) {
 		this.setBackground(Color.LIGHT_GRAY);
 		this.setMinimumSize(Define.informationMinimumSize);
 		this.setPreferredSize(Define.infomationPreferredSize);
@@ -73,6 +73,18 @@ public class Information extends JPanel {
 		this.add(this.giveUp);
 		this.add(Box.createVerticalGlue());
 		this.add(Box.createVerticalGlue());
+	}
+
+	public Information(Control control, Player turn, int delay) {
+		this(control, turn);
+		int minute = delay/60;
+		int second = delay%60;
+		this.watch.setText("Time : "+minute+":"+second);
+	}
+
+	public Information(Control control, Player turn, int total, boolean useless) {
+		this(control, turn);
+		this.watch.setText("Time : "+total+":00");
 	}
 
 	public void setWatch(JLabel watch) {
