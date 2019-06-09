@@ -12,7 +12,7 @@ public class Parameter {
 		this.komi = 0;
 		this.watch = Watch.NONE;
 		this.delay = 60;
-		this.byoYomiTotal = 10;
+		this.byoYomiTotal = 15;
 		this.byoYomiPeriod = 20;
 		this.byoYomiAmount = 3;
 	}
