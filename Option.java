@@ -19,11 +19,11 @@ public class Option extends JPanel {
 	private JRadioButton delay60;
 	private JRadioButton delay120;
 	private JRadioButton delay180;
-	private JRadioButton byoYomiTotal3;
 	private JRadioButton byoYomiTotal5;
 	private JRadioButton byoYomiTotal10;
 	private JRadioButton byoYomiTotal15;
 	private JRadioButton byoYomiTotal20;
+	private JRadioButton byoYomiTotal30;
 	private JRadioButton byoYomiPeriod10;
 	private JRadioButton byoYomiPeriod20;
 	private JRadioButton byoYomiPeriod30;
@@ -74,11 +74,11 @@ public class Option extends JPanel {
 		this.delay60 = new JRadioButton("60");
 		this.delay120 = new JRadioButton("120");
 		this.delay180 = new JRadioButton("180");
-		this.byoYomiTotal3 = new JRadioButton("3");
 		this.byoYomiTotal5 = new JRadioButton("5");
 		this.byoYomiTotal10 = new JRadioButton("10");
 		this.byoYomiTotal15 = new JRadioButton("15");
 		this.byoYomiTotal20 = new JRadioButton("20");
+		this.byoYomiTotal30 = new JRadioButton("30");
 		this.byoYomiPeriod10 = new JRadioButton("10");
 		this.byoYomiPeriod20 = new JRadioButton("20");
 		this.byoYomiPeriod30 = new JRadioButton("30");
@@ -109,11 +109,11 @@ public class Option extends JPanel {
 		this.noneWatch.setBackground(this.getBackground());
 		this.absoluteWatch.setBackground(this.getBackground());
 		this.byoYomiWatch.setBackground(this.getBackground());
-		this.byoYomiTotal3.setBackground(this.getBackground());
 		this.byoYomiTotal5.setBackground(this.getBackground());
 		this.byoYomiTotal10.setBackground(this.getBackground());
 		this.byoYomiTotal15.setBackground(this.getBackground());
 		this.byoYomiTotal20.setBackground(this.getBackground());
+		this.byoYomiTotal30.setBackground(this.getBackground());
 		this.byoYomiPeriod10.setBackground(this.getBackground());
 		this.byoYomiPeriod20.setBackground(this.getBackground());
 		this.byoYomiPeriod30.setBackground(this.getBackground());
@@ -149,11 +149,11 @@ public class Option extends JPanel {
 		delayGroup.add(this.delay120);
 		delayGroup.add(this.delay180);
 		ButtonGroup byoYomiTotalGroup = new ButtonGroup();
-		byoYomiTotalGroup.add(this.byoYomiTotal3);
 		byoYomiTotalGroup.add(this.byoYomiTotal5);
 		byoYomiTotalGroup.add(this.byoYomiTotal10);
 		byoYomiTotalGroup.add(this.byoYomiTotal15);
 		byoYomiTotalGroup.add(this.byoYomiTotal20);
+		byoYomiTotalGroup.add(this.byoYomiTotal30);
 		ButtonGroup byoYomiPeriodGroup = new ButtonGroup();
 		byoYomiPeriodGroup.add(this.byoYomiPeriod10);
 		byoYomiPeriodGroup.add(this.byoYomiPeriod20);
@@ -250,11 +250,11 @@ public class Option extends JPanel {
 		Box box13 = Box.createHorizontalBox();
 		box13.add(new JLabel("Byo-Yomi Total Time (min)"));
 		Box box14 = Box.createHorizontalBox();
-		box14.add(this.byoYomiTotal3);
 		box14.add(this.byoYomiTotal5);
 		box14.add(this.byoYomiTotal10);
 		box14.add(this.byoYomiTotal15);
 		box14.add(this.byoYomiTotal20);
+		box14.add(this.byoYomiTotal30);
 		Box box15 = Box.createVerticalBox();
 		box15.add(Box.createVerticalGlue());
 		box15.add(Box.createVerticalGlue());
@@ -367,9 +367,6 @@ public class Option extends JPanel {
 	public JRadioButton getByoYomiPeriod30() {
 		return this.byoYomiPeriod30;
 	}
-	public JRadioButton getByoYomiTotal3() {
-		return this.byoYomiTotal3;
-	}
 	public JRadioButton getByoYomiTotal5() {
 		return this.byoYomiTotal5;
 	}
@@ -381,6 +378,9 @@ public class Option extends JPanel {
 	}
 	public JRadioButton getByoYomiTotal20() {
 		return this.byoYomiTotal20;
+	}
+	public JRadioButton getByoYomiTotal30() {
+		return this.byoYomiTotal30;
 	}
 	public JRadioButton getDelay10() {
 		return this.delay10;

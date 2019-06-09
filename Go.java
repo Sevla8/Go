@@ -154,11 +154,11 @@ public class Go {
 		this.addHistoric();
 	}
 
-	public void control(int x, int y) {
+	public boolean control(int x, int y) {
 		if (!this.gameOver)
-			this.play(x, y);
+			return this.play(x, y);
 		else 
-			this.deadStone(x, y);
+			return this.deadStone(x, y);
 	}
 
 	public void makeWinner() {
@@ -227,7 +227,7 @@ public class Go {
 		}
 	}
 
-	private void play(int x, int y) {
+	private boolean play(int x, int y) {
 		if (this.correctMove(x, y) && !this.gameOver) {
 			this.cutHistoric();
 			this.setStone(x, y);
@@ -238,10 +238,12 @@ public class Go {
 			else 
 				this.whiteSkip = false;
 			this.addHistoric();
+			return true;
 		}
+		return false;
 	}
 
-	private void deadStone(int x, int y) {
+	private boolean deadStone(int x, int y) {
 		if (inGoban(x, y) && this.goban[y][x] != null) {
 			if (this.goban[y][x] == Player.BLACK)
 				this.blackPrisoner += 1;
@@ -249,7 +251,9 @@ public class Go {
 				this.whitePrisoner += 1;
 			this.removeStone(x, y);
 			this.addHistoric();
+			return true;
 		}
+		return false;
 	}
 
 	private boolean correctMove(int x, int y) {

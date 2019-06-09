@@ -7,7 +7,6 @@ public class MyFrame extends JFrame {
 		this.setMinimumSize(Define.myFrameMinimumSize);
 		this.setLocation(Define.myFrameLocation);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Go");
-		// this.setLayout(null);		
+		this.setTitle("Go");	
 	}
 }

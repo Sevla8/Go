@@ -186,11 +186,11 @@ public class Control implements MouseListener, ActionListener {
 				this.option.getDelay60().setEnabled(false);
 				this.option.getDelay120().setEnabled(false);
 				this.option.getDelay180().setEnabled(false);
-				this.option.getByoYomiTotal3().setEnabled(false);
 				this.option.getByoYomiTotal5().setEnabled(false);
 				this.option.getByoYomiTotal10().setEnabled(false);
 				this.option.getByoYomiTotal15().setEnabled(false);
 				this.option.getByoYomiTotal20().setEnabled(false);
+				this.option.getByoYomiTotal30().setEnabled(false);
 				this.option.getByoYomiPeriod10().setEnabled(false);
 				this.option.getByoYomiPeriod20().setEnabled(false);
 				this.option.getByoYomiPeriod30().setEnabled(false);
@@ -208,11 +208,11 @@ public class Control implements MouseListener, ActionListener {
 				this.option.getDelay60().setEnabled(true);
 				this.option.getDelay120().setEnabled(true);
 				this.option.getDelay180().setEnabled(true);
-				this.option.getByoYomiTotal3().setEnabled(false);
 				this.option.getByoYomiTotal5().setEnabled(false);
 				this.option.getByoYomiTotal10().setEnabled(false);
 				this.option.getByoYomiTotal15().setEnabled(false);
 				this.option.getByoYomiTotal20().setEnabled(false);
+				this.option.getByoYomiTotal30().setEnabled(false);
 				this.option.getByoYomiPeriod10().setEnabled(false);
 				this.option.getByoYomiPeriod20().setEnabled(false);
 				this.option.getByoYomiPeriod30().setEnabled(false);
@@ -230,11 +230,11 @@ public class Control implements MouseListener, ActionListener {
 				this.option.getDelay60().setEnabled(false);
 				this.option.getDelay120().setEnabled(false);
 				this.option.getDelay180().setEnabled(false);
-				this.option.getByoYomiTotal3().setEnabled(true);
 				this.option.getByoYomiTotal5().setEnabled(true);
 				this.option.getByoYomiTotal10().setEnabled(true);
 				this.option.getByoYomiTotal15().setEnabled(true);
 				this.option.getByoYomiTotal20().setEnabled(true);
+				this.option.getByoYomiTotal30().setEnabled(true);
 				this.option.getByoYomiPeriod10().setEnabled(true);
 				this.option.getByoYomiPeriod20().setEnabled(true);
 				this.option.getByoYomiPeriod30().setEnabled(true);
@@ -276,16 +276,16 @@ public class Control implements MouseListener, ActionListener {
 				this.option.getDelay120().setSelected(true);
 			else
 				this.option.getDelay180().setSelected(true);
-			if (this.goban.getBoard().getGo().getParameter().getByoYomiTotal() == 3)
-				this.option.getByoYomiTotal3().setSelected(true);
-			else if (this.goban.getBoard().getGo().getParameter().getByoYomiTotal() == 5)
+			if (this.goban.getBoard().getGo().getParameter().getByoYomiTotal() == 5)
 				this.option.getByoYomiTotal5().setSelected(true);
 			else if (this.goban.getBoard().getGo().getParameter().getByoYomiTotal() == 10)
 				this.option.getByoYomiTotal10().setSelected(true);
 			else if (this.goban.getBoard().getGo().getParameter().getByoYomiTotal() == 15)
 				this.option.getByoYomiTotal15().setSelected(true);
-			else
+			else if (this.goban.getBoard().getGo().getParameter().getByoYomiTotal() == 20)
 				this.option.getByoYomiTotal20().setSelected(true);
+			else
+				this.option.getByoYomiTotal30().setSelected(true);
 			if (this.goban.getBoard().getGo().getParameter().getByoYomiPeriod() == 10)
 				this.option.getByoYomiPeriod10().setSelected(true);
 			else if (this.goban.getBoard().getGo().getParameter().getByoYomiPeriod() == 20)
@@ -354,16 +354,16 @@ public class Control implements MouseListener, ActionListener {
 				this.goban.getBoard().getGo().getParameter().setDelay(120);
 			else 
 				this.goban.getBoard().getGo().getParameter().setDelay(180);
-			if (this.option.getByoYomiTotal3().isSelected())
-				this.goban.getBoard().getGo().getParameter().setByoYomiTotal(3);
-			else if (this.option.getByoYomiTotal5().isSelected())
+			if (this.option.getByoYomiTotal5().isSelected())
 				this.goban.getBoard().getGo().getParameter().setByoYomiTotal(5);
 			else if (this.option.getByoYomiTotal10().isSelected())
 				this.goban.getBoard().getGo().getParameter().setByoYomiTotal(10);
 			else if (this.option.getByoYomiTotal15().isSelected())
 				this.goban.getBoard().getGo().getParameter().setByoYomiTotal(15);
-			else
+			else if (this.option.getByoYomiTotal20().isSelected())
 				this.goban.getBoard().getGo().getParameter().setByoYomiTotal(20);
+			else 
+				this.goban.getBoard().getGo().getParameter().setByoYomiTotal(30);
 			if (this.option.getByoYomiPeriod10().isSelected())
 				this.goban.getBoard().getGo().getParameter().setByoYomiPeriod(10);
 			else if (this.option.getByoYomiPeriod20().isSelected())
@@ -561,11 +561,11 @@ public class Control implements MouseListener, ActionListener {
 				this.option.getDelay60().setEnabled(false);
 				this.option.getDelay120().setEnabled(false);
 				this.option.getDelay180().setEnabled(false);
-				this.option.getByoYomiTotal3().setEnabled(false);
 				this.option.getByoYomiTotal5().setEnabled(false);
 				this.option.getByoYomiTotal10().setEnabled(false);
 				this.option.getByoYomiTotal15().setEnabled(false);
 				this.option.getByoYomiTotal20().setEnabled(false);
+				this.option.getByoYomiTotal30().setEnabled(false);
 				this.option.getByoYomiPeriod10().setEnabled(false);
 				this.option.getByoYomiPeriod20().setEnabled(false);
 				this.option.getByoYomiPeriod30().setEnabled(false);
@@ -582,11 +582,11 @@ public class Control implements MouseListener, ActionListener {
 				this.option.getDelay60().setEnabled(true);
 				this.option.getDelay120().setEnabled(true);
 				this.option.getDelay180().setEnabled(true);
-				this.option.getByoYomiTotal3().setEnabled(false);
 				this.option.getByoYomiTotal5().setEnabled(false);
 				this.option.getByoYomiTotal10().setEnabled(false);
 				this.option.getByoYomiTotal15().setEnabled(false);
 				this.option.getByoYomiTotal20().setEnabled(false);
+				this.option.getByoYomiTotal30().setEnabled(false);
 				this.option.getByoYomiPeriod10().setEnabled(false);
 				this.option.getByoYomiPeriod20().setEnabled(false);
 				this.option.getByoYomiPeriod30().setEnabled(false);
@@ -603,11 +603,11 @@ public class Control implements MouseListener, ActionListener {
 				this.option.getDelay60().setEnabled(false);
 				this.option.getDelay120().setEnabled(false);
 				this.option.getDelay180().setEnabled(false);
-				this.option.getByoYomiTotal3().setEnabled(true);
 				this.option.getByoYomiTotal5().setEnabled(true);
 				this.option.getByoYomiTotal10().setEnabled(true);
 				this.option.getByoYomiTotal15().setEnabled(true);
 				this.option.getByoYomiTotal20().setEnabled(true);
+				this.option.getByoYomiTotal30().setEnabled(true);
 				this.option.getByoYomiPeriod10().setEnabled(true);
 				this.option.getByoYomiPeriod20().setEnabled(true);
 				this.option.getByoYomiPeriod30().setEnabled(true);
@@ -629,11 +629,12 @@ public class Control implements MouseListener, ActionListener {
 				int x = (e.getX()-margeWidth+caseSize/2)/caseSize;
 				int y = (e.getY()-margeHeight+caseSize/2)/caseSize;
 
-				this.goban.getBoard().getGo().control(x, y);
+				if (this.goban.getBoard().getGo().control(x, y)) {
+					this.actualiseTimer();
+					this.actualiseInformation();
+					this.goban.getBoard().repaint();
+				}
 
-				this.actualiseTimer();
-				this.actualiseInformation();
-				this.goban.getBoard().repaint();
 			}
 		}
 	}
