@@ -12,6 +12,7 @@ class Board extends JPanel {
 		this.go = go;
 
 		this.addMouseListener(control);
+		this.addMouseMotionListener(control);
 
 		this.setMinimumSize(Define.boardMinimumSize);
 		this.setPreferredSize(Define.boardPreferredSize);
@@ -64,6 +65,14 @@ class Board extends JPanel {
 					}
 					if (this.go.getGoban()[i][j] == Player.WHITE) {
 						g.setColor(Color.WHITE);
+						g.fillOval(j*caseSize-caseSize/2+margeWidth, i*caseSize-caseSize/2+margeHeight, caseSize, caseSize);
+					}
+					if (this.go.getGoban()[i][j] == Player.BLACK_TMP) {
+						g.setColor(new Color(0, 0, 0, 100));
+						g.fillOval(j*caseSize-caseSize/2+margeWidth, i*caseSize-caseSize/2+margeHeight, caseSize, caseSize);
+					}
+					if (this.go.getGoban()[i][j] == Player.WHITE_TMP) {
+						g.setColor(new Color(255, 255, 255, 100));
 						g.fillOval(j*caseSize-caseSize/2+margeWidth, i*caseSize-caseSize/2+margeHeight, caseSize, caseSize);
 					}
 				}

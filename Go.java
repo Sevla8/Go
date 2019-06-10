@@ -3,17 +3,19 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Go {
-	private int index;
+	private int lastX = 0;
+	private int lastY = 0;
+	private int index = -1;
 	private Player turn;
-	private Player winner;
-	private boolean gameOver;
+	private Player winner = null;
+	private boolean gameOver = false;
 	private Player[][] goban;
-	private boolean blackSkip;
-	private boolean whiteSkip;
+	private boolean blackSkip = false;
+	private boolean whiteSkip = false;
 	private double blackScore;
 	private double whiteScore;
-	private int blackPrisoner;
-	private int whitePrisoner;
+	private int blackPrisoner = 0;
+	private int whitePrisoner = 0;
 	private Parameter parameter;
 	private LinkedList<Historic> historic;
 
@@ -138,20 +140,26 @@ public class Go {
 			this.turn = Player.BLACK;
 		else 
 			this.turn = Player.WHITE;
-		this.blackPrisoner = 0;
-		this.whitePrisoner = 0;
-		this.gameOver = false;
-		this.whiteSkip = false;
-		this.blackSkip = false;
-		this.winner = null;
 		this.blackScore = 0.;
 		if (this.parameter.getKomi() == 0)
 			this.whiteScore = 7.5;
 		else 
 			this.whiteScore = 0.;
 		this.historic = new LinkedList<Historic>();
-		this.index = -1;
 		this.addHistoric();
+	}
+
+	public void indication(int x, int y) {
+		if (this.goban[this.lastY][this.lastX] == Player.BLACK_TMP || this.goban[this.lastY][this.lastX] == Player.WHITE_TMP)
+		this.goban[this.lastY][this.lastX] = null;
+		if (correctMove(x, y) && !this.gameOver) {
+			if (this.turn == Player.BLACK)
+				this.goban[y][x] = Player.BLACK_TMP;
+			else 
+				this.goban[y][x] = Player.WHITE_TMP;
+			this.lastX = x;
+			this.lastY = y;
+		}
 	}
 
 	public boolean control(int x, int y) {
@@ -163,7 +171,7 @@ public class Go {
 
 	public void makeWinner() {
 		this.makeScore();
-		this.winner = this.blackScore > this.whiteScore ? Player.BLACK : Player.WHITE; 
+		this.winner = this.blackScore > this.whiteScore ? Player.BLACK : (this.blackScore < this.whiteScore ? Player.WHITE : Player.GRAY);
 	}
 
 	public void skip() {
@@ -259,7 +267,7 @@ public class Go {
 	private boolean correctMove(int x, int y) {
 		if (!inGoban(x, y))
 			return false;
-		if (this.goban[y][x] != null)
+		if (this.goban[y][x] == Player.BLACK || this.goban[y][x] == Player.WHITE)
 			return false;
 		if (this.ko(x, y))
 			return false;
