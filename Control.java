@@ -5,7 +5,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseMotionListener;
 
-public class Control implements MouseListener, ActionListener {
+public class Control implements MouseListener, ActionListener, MouseMotionListener {
 	private MyFrame myFrame;
 	private Menu menu;
 	private Option option;
@@ -532,7 +532,6 @@ public class Control implements MouseListener, ActionListener {
 		else if (e.getButton() == MouseEvent.BUTTON3)
 			this.click = Click.RIGHT;
 	}
-
 	public void mouseClicked(MouseEvent e) {
 		if (this.click == Click.LEFT) {
 			// options
@@ -638,8 +637,23 @@ public class Control implements MouseListener, ActionListener {
 			}
 		}
 	}
-
 	public void mouseExited(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
+
+	public void mouseMoved(MouseEvent e) {
+		int size = this.goban.getBoard().getGo().getParameter().getSize();
+		int min = this.goban.getBoard().getWidth() < this.goban.getBoard().getHeight() ? this.goban.getBoard().getWidth() : this.goban.getBoard().getHeight();
+		int caseSize = min/(size+1);
+		int marge = caseSize;
+		int margeWidth = (this.goban.getBoard().getWidth()-min)/2+marge;
+		int margeHeight = (this.goban.getBoard().getHeight()-min)/2+marge;
+
+		int x = (e.getX()-margeWidth+caseSize/2)/caseSize;
+		int y = (e.getY()-margeHeight+caseSize/2)/caseSize;
+
+		this.goban.getBoard().getGo().indication(x, y);
+		this.goban.getBoard().repaint();
+	}
+	public void mouseDragged(MouseEvent e) {}
 }
