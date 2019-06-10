@@ -67,12 +67,20 @@ class Board extends JPanel {
 						g.setColor(Color.WHITE);
 						g.fillOval(j*caseSize-caseSize/2+margeWidth, i*caseSize-caseSize/2+margeHeight, caseSize, caseSize);
 					}
-					if (this.go.getGoban()[i][j] == Player.BLACK_TMP) {
+					if (this.go.getGoban()[i][j] == Player.BLACK_TMP && !this.go.getGameOver()) {
 						g.setColor(new Color(0, 0, 0, 100));
 						g.fillOval(j*caseSize-caseSize/2+margeWidth, i*caseSize-caseSize/2+margeHeight, caseSize, caseSize);
 					}
-					if (this.go.getGoban()[i][j] == Player.WHITE_TMP) {
+					if (this.go.getGoban()[i][j] == Player.WHITE_TMP && !this.go.getGameOver()) {
 						g.setColor(new Color(255, 255, 255, 100));
+						g.fillOval(j*caseSize-caseSize/2+margeWidth, i*caseSize-caseSize/2+margeHeight, caseSize, caseSize);
+					}
+					if (this.go.getGoban()[i][j] == Player.BLACK_TMP && this.go.getGameOver()) {
+						g.setColor(Color.RED);
+						g.fillOval(j*caseSize-caseSize/2+margeWidth, i*caseSize-caseSize/2+margeHeight, caseSize, caseSize);
+					}
+					if (this.go.getGoban()[i][j] == Player.WHITE_TMP && this.go.getGameOver()) {
+						g.setColor(Color.RED);
 						g.fillOval(j*caseSize-caseSize/2+margeWidth, i*caseSize-caseSize/2+margeHeight, caseSize, caseSize);
 					}
 				}
