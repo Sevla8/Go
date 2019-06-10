@@ -150,13 +150,39 @@ public class Go {
 	}
 
 	public void indication(int x, int y) {
-		if (this.goban[this.lastY][this.lastX] == Player.BLACK_TMP || this.goban[this.lastY][this.lastX] == Player.WHITE_TMP)
-		this.goban[this.lastY][this.lastX] = null;
+		if (this.goban[this.lastY][this.lastX] == Player.BLACK_TMP || this.goban[this.lastY][this.lastX] == Player.WHITE_TMP) {
+			if (this.gameOver) {
+				if (this.goban[this.lastY][this.lastX] == Player.BLACK_TMP) {
+					for (Stone stone : this.getGroup(new Stone(Player.BLACK_TMP, this.lastX, this.lastY)))
+						this.goban[stone.getY()][stone.getX()] = Player.BLACK;
+				}
+				else if (this.goban[this.lastY][this.lastX] == Player.WHITE_TMP) {
+					for (Stone stone : this.getGroup(new Stone(Player.WHITE_TMP, this.lastX, this.lastY)))
+						this.goban[stone.getY()][stone.getX()] = Player.WHITE;
+				}
+			}
+			else
+				this.goban[this.lastY][this.lastX] = null;
+		}
 		if (correctMove(x, y) && !this.gameOver) {
 			if (this.turn == Player.BLACK)
 				this.goban[y][x] = Player.BLACK_TMP;
 			else 
 				this.goban[y][x] = Player.WHITE_TMP;
+			this.lastX = x;
+			this.lastY = y;
+		}
+		else if (inGoban(x, y) && (this.goban[y][x] == Player.BLACK || this.goban[y][x] == Player.WHITE) && this.gameOver) {
+			if (this.goban[y][x] == Player.BLACK) {
+				for (Stone stone : this.getGroup(new Stone(Player.BLACK, x, y))) {
+					this.goban[stone.getY()][stone.getX()] = Player.BLACK_TMP;				
+				}
+			}
+			else if (this.goban[y][x] == Player.WHITE) {
+				for (Stone stone : this.getGroup(new Stone(Player.WHITE, x, y))) {
+					this.goban[stone.getY()][stone.getX()] = Player.WHITE_TMP;
+				}
+			}
 			this.lastX = x;
 			this.lastY = y;
 		}
@@ -252,12 +278,11 @@ public class Go {
 	}
 
 	private boolean deadStone(int x, int y) {
-		if (inGoban(x, y) && this.goban[y][x] != null) {
-			if (this.goban[y][x] == Player.BLACK)
-				this.blackPrisoner += 1;
+		if (inGoban(x, y) && (this.goban[y][x] == Player.BLACK || this.goban[y][x] == Player.WHITE || this.goban[y][x] == Player.BLACK_TMP || this.goban[y][x] == Player.WHITE_TMP)) {
+			if (this.goban[y][x] == Player.BLACK || this.goban[y][x] == Player.BLACK_TMP)
+				this.blackPrisoner += this.removeGroup(this.getGroup(new Stone(Player.BLACK_TMP, x, y)));
 			else
-				this.whitePrisoner += 1;
-			this.removeStone(x, y);
+				this.whitePrisoner += this.removeGroup(this.getGroup(new Stone(Player.WHITE_TMP, x, y)));
 			this.addHistoric();
 			return true;
 		}
@@ -410,7 +435,11 @@ public class Go {
 			return null;
 		if (this.goban[y][x] == Player.WHITE)
 			return Player.WHITE;
-		return Player.BLACK;
+		if (this.goban[y][x] == Player.WHITE_TMP)
+			return Player.WHITE_TMP;
+		if (this.goban[y][x] == Player.BLACK)
+			return Player.BLACK;
+		return Player.BLACK_TMP;
 	}
 
 	private void setStone(int x, int y) {
@@ -419,6 +448,15 @@ public class Go {
 
 	private void removeStone(int x, int y) {
 		this.goban[y][x] = null;
+	}
+
+	private int removeGroup(ArrayList<Stone> group) {
+		int count = 0;
+		for (Stone stone : group) {
+			this.removeStone(stone.getX(), stone.getY());
+			count += 1;
+		}
+		return count;
 	}
 
 	private int getLiberty(int x, int y) {
