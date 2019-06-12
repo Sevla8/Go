@@ -205,12 +205,12 @@ public class Go {
 		if (this.turn == Player.BLACK) {
 			this.blackSkip = true;
 			if (this.whiteSkip == true)
-				this.gameOver = true;
+				this.makeGameOver();
 		}
 		else {
 			this.whiteSkip = true;
 			if (this.blackSkip == true)
-				this.gameOver = true;
+				this.makeGameOver();
 		}
 		this.turnOver();
 		this.addHistoric();
@@ -218,6 +218,16 @@ public class Go {
 
 	public void giveUp() {
 		this.winner = this.turn.other();
+		this.makeGameOver();
+	}
+
+	public void makeGameOver() {
+		for (int i = 0; i < this.parameter.getSize(); i += 1) {
+			for (int j = 0; j < this.parameter.getSize(); j += 1) {
+				if (this.goban[i][j] == Player.BLACK_TMP || this.goban[i][j] == Player.WHITE_TMP) 
+					this.goban[i][j] = null;
+			}
+		}
 		this.gameOver = true;
 	}
 
