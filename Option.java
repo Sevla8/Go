@@ -46,12 +46,12 @@ public class Option extends JPanel {
 	private JRadioButton komi8;
 	private JRadioButton komi9;
 	private JButton save;
-	private JButton back;
+	private JButton cancel;
 
 	public Option(Control control) {
 		this.setBackground(Color.GRAY);
 		this.save = new JButton("Save");
-		this.back = new JButton("Back");
+		this.cancel = new JButton("Cancel");
 		this.noneWatch = new JRadioButton("None");
 		this.absoluteWatch = new JRadioButton("Absolute");
 		this.byoYomiWatch = new JRadioButton("Byo-Yomi");
@@ -310,7 +310,7 @@ public class Option extends JPanel {
 		Box box23 = Box.createHorizontalBox();
 		box23.add(Box.createHorizontalGlue());
 		box23.add(Box.createHorizontalGlue());
-		box23.add(this.back);
+		box23.add(this.cancel);
 		box23.add(Box.createHorizontalGlue());
 		box23.add(this.save);
 		box23.add(Box.createHorizontalGlue());
@@ -334,7 +334,7 @@ public class Option extends JPanel {
 		this.add(Box.createVerticalGlue());
 
 		this.save.addActionListener(control);
-		this.back.addActionListener(control);
+		this.cancel.addActionListener(control);
 		this.size19.addMouseListener(control);
 		this.size13.addMouseListener(control);
 		this.size9.addMouseListener(control);
@@ -451,7 +451,7 @@ public class Option extends JPanel {
 	public JButton getSave() {
 		return this.save;
 	}
-	public JButton getBack() {
-		return this.back;
+	public JButton getCancel() {
+		return this.cancel;
 	}
 }
