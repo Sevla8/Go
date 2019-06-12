@@ -382,7 +382,7 @@ public class Control implements MouseListener, ActionListener, MouseMotionListen
 				this.goban.getBoard().getGo().getParameter().setByoYomiAmount(5);	
 			this.addMenu();
 		}
-		else if (e.getSource() == this.option.getBack()) {	// option/back
+		else if (e.getSource() == this.option.getCancel()) {	// option/cancel
 			this.addMenu();
 		}
 		// game
