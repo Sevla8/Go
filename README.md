@@ -8,13 +8,13 @@ JAVA Application to play Go
 - Sevla (brandon.da-silva-alves@etu.u-pec.fr)
 
 ## To Run It
--> javac ./\*.java
--> java Main
+- $ javac ./\*.java
+- $ java Main
 
 ## Dates
 
-- Since Febrary 2019 
-- In development
+- From Febrary 2019 
+- To July 2019
 
 ## File's Description
 
