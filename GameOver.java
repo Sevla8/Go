@@ -12,7 +12,11 @@ public class GameOver extends JPanel {
 		Box box1 = Box.createHorizontalBox();
 		box1.add(label);
 
-		JLabel winner = new JLabel("Winner is Player "+player);
+		JLabel winner = null;
+		if (player != null)
+			winner = new JLabel("Winner is Player "+player);
+		else 
+			winner = new JLabel("Draw");
 		Box box2 = Box.createHorizontalBox();
 		box2.add(winner);
 

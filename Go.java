@@ -197,7 +197,7 @@ public class Go {
 
 	public void makeWinner() {
 		this.makeScore();
-		this.winner = this.blackScore > this.whiteScore ? Player.BLACK : (this.blackScore < this.whiteScore ? Player.WHITE : Player.GRAY);
+		this.winner = this.blackScore > this.whiteScore ? Player.BLACK : (this.blackScore < this.whiteScore ? Player.WHITE : null);
 	}
 
 	public void skip() {
@@ -235,7 +235,8 @@ public class Go {
 		if (this.index > 0) {
 			this.index -= 1;
 			this.getHistoric(this.index);
-			this.turnOver();
+			if (!this.gameOver)
+				this.turnOver();
 		}
 	}
 
@@ -243,7 +244,8 @@ public class Go {
 		if (this.index < this.historic.size()-1) {
 			this.index += 1;
 			this.getHistoric(this.index);
-			this.turnOver();
+			if (!this.gameOver)
+				this.turnOver();
 		}
 	}
 
@@ -345,9 +347,9 @@ public class Go {
 					nbWhite += 1;
 			}
 		}
-		if (nbBlack == 0)
+		if (nbBlack == 0 && nbWhite != 0) 
 			return Player.WHITE;
-		if (nbWhite == 0)
+		if (nbWhite == 0 && nbBlack != 0)
 			return Player.BLACK;
 		return null;
 	}

@@ -107,7 +107,10 @@ public class Control implements MouseListener, ActionListener, MouseMotionListen
 			this.goban.getInformation().getWhiteSkip().setText("White Skip : None");
 		this.goban.getInformation().getBlackPrisoner().setText("Black Prisoners : "+this.goban.getBoard().getGo().getBlackPrisoner());
 		this.goban.getInformation().getWhitePrisoner().setText("White Prisoners : "+this.goban.getBoard().getGo().getWhitePrisoner());
-		this.goban.getInformation().getTurn().setText("Turn : "+this.goban.getBoard().getGo().getTurn());
+		if (!this.goban.getBoard().getGo().getGameOver())
+			this.goban.getInformation().getTurn().setText("Turn : "+this.goban.getBoard().getGo().getTurn());
+		else 
+			this.goban.getInformation().getTurn().setText("Select dead groups");
 		if (this.goban.getBoard().getGo().getIndex() != 0)
 			this.goban.getInformation().getUndo().setEnabled(true);
 		else 
